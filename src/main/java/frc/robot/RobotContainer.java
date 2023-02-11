@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.exampleAuto;
@@ -79,17 +78,33 @@ public class RobotContainer {
     /* Driver Buttons........................................ */
     driverB.back().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-    /*Intake GP */
-    driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
-      () -> intakeSubsystem.stopIntakeMotor()));  //add intake position out/stowed
 
-    /*SCORE (FUTURE- add stowed intake*/
-    driverB.rightTrigger().whileTrue(new InstantCommand(() -> intakeSubsystem.reverseIntakeMotor())); 
-    driverB.rightTrigger().whileFalse(new InstantCommand(() -> {
-                          extensionSubsystem.stowedExtension(); 
-                          new WaitCommand(0.5);
-                          elevatorSubsystem.stowedElevator();
-                          }));
+    /////////////////////////////////////////Old Intake code////////////////////////////////////////////////
+    // /*Intake GP */
+    // driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+    //   () -> intakeSubsystem.stopIntakeMotor()));  //add intake position out/stowed
+
+    // /*SCORE (FUTURE- add stowed intake*/
+    // driverB.rightTrigger().whileTrue(new InstantCommand(() -> intakeSubsystem.reverseIntakeMotor())); 
+    // driverB.rightTrigger().whileFalse(new InstantCommand(() -> {
+    //                       extensionSubsystem.stowedExtension(); 
+    //                       new WaitCommand(0.5);
+    //                       elevatorSubsystem.stowedElevator();
+    //                       }));
+    /////////////////////////////////////////Old Intake code////////////////////////////////////////////////
+   
+    /////////////Intake code//////////////////////////////////////////////////////////////////////////////
+    /*Manual Intake*/
+    driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor()));
+    driverB.rightBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor()));
+    driverB.leftTrigger().whileTrue(new StartEndCommand(() -> intakeSubsystem.upWristMotor(),
+      () -> intakeSubsystem.stopWristMotor()));
+    driverB.rightTrigger().whileTrue(new StartEndCommand(() -> intakeSubsystem.downWristMotor(),
+      () -> intakeSubsystem.stopWristMotor()));
+    /////////////Intake code//////////////////////////////////////////////////////////////////////////////
+
 
     /*Manual Elevator/Extension */
     driverB.povUp().whileTrue(new StartEndCommand(() -> elevatorSubsystem.upElevatorMotor(),
@@ -102,7 +117,7 @@ public class RobotContainer {
       () -> extensionSubsystem.stopExtensionMotor()));
 
 
-    /* Operator Buttons...................................... */
+    /* Operator Buttons................................................................................ */
     
     /*FUTURE- add level 2 & level 3 score ready position button */
     /*Positions Elevator/Extension seperate*/
@@ -129,13 +144,13 @@ public class RobotContainer {
       () -> extensionSubsystem.stopExtensionMotor()));
 
     /*Manual Intake*/
-    operator.leftBumper().onTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+    operator.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor()));
+    operator.rightBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor()));
+    operator.leftTrigger().whileTrue(new StartEndCommand(() -> intakeSubsystem.upWristMotor(),
       () -> intakeSubsystem.stopWristMotor()));
-    operator.rightBumper().onTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
-      () -> intakeSubsystem.stopWristMotor()));
-    operator.leftTrigger().onTrue(new StartEndCommand(() -> intakeSubsystem.forwardWristMotor(),
-      () -> intakeSubsystem.stopWristMotor()));
-    operator.rightTrigger().onTrue(new StartEndCommand(() -> intakeSubsystem.reverseWristMotor(),
+    operator.rightTrigger().whileTrue(new StartEndCommand(() -> intakeSubsystem.downWristMotor(),
       () -> intakeSubsystem.stopWristMotor()));
 
   }  
