@@ -28,21 +28,4 @@ public class IntakeSubsystem extends SubsystemBase{
         intakeMotor.set(0);
       }
     
-<<<<<<< HEAD
-
-=======
-      public void upWristMotor() {
-        wristMotor.set(.5);
-      }
-    
-      public void downWristMotor() {
-        wristMotor.set(-.5);
-      }
-      
-      public void stopWristMotor() {
-        wristMotor.set(0);
-      }
->>>>>>> 1689c4e4710ce367a2a4975bb86bc56e206537c7
-
-
 }
