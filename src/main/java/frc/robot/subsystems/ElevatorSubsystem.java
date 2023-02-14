@@ -4,11 +4,11 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -16,88 +16,85 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-  private CANSparkMax elevatorMotor = new CANSparkMax(Constants.ELEVATOR_MOTOR_ID, MotorType.kBrushless);
-  private RelativeEncoder elevator_encoder;
-  private SparkMaxPIDController elevator_pidController;  
+private TalonFX elevatorMotor = new TalonFX(Constants.ELEVATOR_MOTOR_ID);
+private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_MOTOR_ID);
   
   private DoubleSolenoid elevatorBreak = new DoubleSolenoid(PneumaticsModuleType.REVPH, 
   Constants.ELEVATOR_BRAKE_FORWARD, Constants.ELEVATOR_BRAKE_REVERSE);
 
-// PID coefficients............................................
-double kP = 0.01; 
-double kI = 0;
-double kD = 0; 
-double kIz = 0; 
-double kFF = 0; 
-double kMaxOutput = 1; 
-double kMinOutput = -1;
+  // PID coefficients............................................
+  double kP = 0.01; 
+  double kI = 0;
+  double kD = 0; 
+  double kF = 0; 
 
-//PID Setpoint....................................................
-double l3ElevatorPosition = 100;
-double l2ElevatorPosition = 50;
-double stowedElevatorPosition = 0;
+  //PID Setpoint....................................................
+  double l3ElevatorPosition = 100000;
+  double l2ElevatorPosition = 50000;
+  double humanElevatorPosition = 25000;
+  double stowedElevatorPosition = 0; //inside frame perimeter
+  double intakeElevatorPosition = -10000; //negative because 0 is set when robot is turn on and is inside frame perimeter
 
   public ElevatorSubsystem() {
-    elevatorMotor.restoreFactoryDefaults();
-    elevatorMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    elevatorMotor.setInverted(false); 
+
+    elevatorMotor.configFactoryDefault();
+    elevatorMotor.setNeutralMode(NeutralMode.Brake);
+    elevatorMotor.setInverted(TalonFXInvertType.Clockwise);//check
+    elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);  
+    elevatorMotor.setSensorPhase(true);//check
   
-    elevatorMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
-    elevatorMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
-  
-    elevatorMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 15); //what is 15?
-    elevatorMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 0);
-  
-    elevator_encoder = elevatorMotor.getEncoder();
-         
-    elevator_pidController = elevatorMotor.getPIDController();
-    
+    /* set up followers */
+    elevatorMotorFollower.configFactoryDefault();
+    elevatorMotorFollower.setNeutralMode(NeutralMode.Brake);
+    elevatorMotorFollower.setInverted(TalonFXInvertType.Clockwise);//check
+    elevatorMotorFollower.follow(elevatorMotor);
+
     // set PID coefficients
-    elevator_pidController.setP(kP); 
-    elevator_pidController.setI(kI);
-    elevator_pidController.setD(kD);
-    elevator_pidController.setIZone(kIz);
-    elevator_pidController.setFF(kFF);
-    elevator_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    elevatorMotor.config_kP(0, kP, 30); 
+    elevatorMotor.config_kI(0, kI, 30); 
+    elevatorMotor.config_kD(0, kD, 30); 
+    elevatorMotor.config_kF(0, kF, 30); 
   }
 
   public void l3Elevator() {
-    elevator_pidController.setReference(l3ElevatorPosition, CANSparkMax.ControlType.kPosition);
+    elevatorMotor.set(ControlMode.Position, l3ElevatorPosition);
     elevatorBreak.set(Value.kForward);
   }
 
   public void l2Elevator() {
-    elevator_pidController.setReference(l2ElevatorPosition, CANSparkMax.ControlType.kPosition);
+    elevatorMotor.set(ControlMode.Position, l2ElevatorPosition);
     elevatorBreak.set(Value.kForward);
   }
 
   public void stowedElevator() {
-    elevator_pidController.setReference(stowedElevatorPosition, CANSparkMax.ControlType.kPosition);
+    elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
     elevatorBreak.set(Value.kForward);
   }
 
-  public void breakElevator() {
-    elevatorBreak.set(Value.kReverse);
+  public void intakeElevator() {
+    elevatorMotor.set(ControlMode.Position, intakeElevatorPosition);
+    elevatorBreak.set(Value.kForward);
   }
-
+  
+  //Do we need this?
   public void resetEncoder() {
-    elevator_encoder.setPosition(0);
-    }
+    elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
+  }
 
     public void upElevatorMotor() {
       System.out.println("going up!");
-      elevatorMotor.set(-1);
+      elevatorMotor.set(ControlMode.PercentOutput, 1);
       elevatorBreak.set(Value.kForward);
     }
   
     public void downElevatorMotor() {
       System.out.println("going down...");
-      elevatorMotor.set(0.1);
+      elevatorMotor.set(ControlMode.PercentOutput, -0.1);
       elevatorBreak.set(Value.kForward);
     }
   
     public void stopElevatorMotor() {
-      elevatorMotor.set(0);
+      elevatorMotor.set(ControlMode.PercentOutput, 0);
       elevatorBreak.set(Value.kReverse);
   }
 

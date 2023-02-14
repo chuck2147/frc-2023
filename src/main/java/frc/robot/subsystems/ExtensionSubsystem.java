@@ -29,8 +29,11 @@ public class ExtensionSubsystem extends SubsystemBase {
 //PID Setpoint....................................................
   double l3Extension = 80;
   double l2Extension = 40;
+  double humanExtension = 20;
   double intakeExtension = 10;
   double stowedExtension = 0;
+
+
   
   public ExtensionSubsystem() {
 
