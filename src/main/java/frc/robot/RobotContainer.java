@@ -93,17 +93,12 @@ public class RobotContainer {
     //                       }));
     /////////////////////////////////////////Old Intake code////////////////////////////////////////////////
    
-    /////////////Intake code//////////////////////////////////////////////////////////////////////////////
     /*Manual Intake*/
     driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
       () -> intakeSubsystem.stopIntakeMotor()));
     driverB.rightBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
       () -> intakeSubsystem.stopIntakeMotor()));
-    driverB.leftTrigger().whileTrue(new StartEndCommand(() -> intakeSubsystem.upWristMotor(),
-      () -> intakeSubsystem.stopWristMotor()));
-    driverB.rightTrigger().whileTrue(new StartEndCommand(() -> intakeSubsystem.downWristMotor(),
-      () -> intakeSubsystem.stopWristMotor()));
-    /////////////Intake code//////////////////////////////////////////////////////////////////////////////
+  
 
 
     /* Operator Buttons...................................... */
