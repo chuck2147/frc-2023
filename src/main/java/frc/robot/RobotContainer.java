@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.exampleAuto;
@@ -79,17 +78,33 @@ public class RobotContainer {
     /* Driver Buttons........................................ */
     driverB.back().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-    /*Intake GP */
-    driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
-      () -> intakeSubsystem.stopIntakeMotor()));  //add intake position out/stowed
 
-    /*SCORE (FUTURE- add stowed intake*/
-    driverB.rightTrigger().whileTrue(new InstantCommand(() -> intakeSubsystem.reverseIntakeMotor())); 
-    driverB.rightTrigger().whileFalse(new InstantCommand(() -> {
-                          extensionSubsystem.stowedExtension(); 
-                          new WaitCommand(0.5);
-                          elevatorSubsystem.stowedElevator();
-                          }));
+    /////////////////////////////////////////Old Intake code////////////////////////////////////////////////
+    // /*Intake GP */
+    // driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+    //   () -> intakeSubsystem.stopIntakeMotor()));  //add intake position out/stowed
+
+    // /*SCORE (FUTURE- add stowed intake*/
+    // driverB.rightTrigger().whileTrue(new InstantCommand(() -> intakeSubsystem.reverseIntakeMotor())); 
+    // driverB.rightTrigger().whileFalse(new InstantCommand(() -> {
+    //                       extensionSubsystem.stowedExtension(); 
+    //                       new WaitCommand(0.5);
+    //                       elevatorSubsystem.stowedElevator();
+    //                       }));
+    /////////////////////////////////////////Old Intake code////////////////////////////////////////////////
+   
+    /////////////Intake code//////////////////////////////////////////////////////////////////////////////
+    /*Manual Intake*/
+    driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor()));
+    driverB.rightBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor()));
+    driverB.leftTrigger().whileTrue(new StartEndCommand(() -> intakeSubsystem.upWristMotor(),
+      () -> intakeSubsystem.stopWristMotor()));
+    driverB.rightTrigger().whileTrue(new StartEndCommand(() -> intakeSubsystem.downWristMotor(),
+      () -> intakeSubsystem.stopWristMotor()));
+    /////////////Intake code//////////////////////////////////////////////////////////////////////////////
+
 
     /* Operator Buttons...................................... */
     
@@ -133,6 +148,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new exampleAuto(s_Swerve);
+    return new exampleAuto(s_Swerve, intakeSubsystem);
   }
 }
