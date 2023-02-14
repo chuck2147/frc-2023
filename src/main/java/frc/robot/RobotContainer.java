@@ -91,17 +91,6 @@ public class RobotContainer {
                           elevatorSubsystem.stowedElevator();
                           }));
 
-    /*Manual Elevator/Extension */
-    driverB.povUp().whileTrue(new StartEndCommand(() -> elevatorSubsystem.upElevatorMotor(),
-      () -> elevatorSubsystem.stopElevatorMotor()));
-    driverB.povDown().whileTrue(new StartEndCommand(() -> elevatorSubsystem.downElevatorMotor(),
-      () -> elevatorSubsystem.stopElevatorMotor()));
-    driverB.povLeft().whileTrue(new StartEndCommand(() -> extensionSubsystem.forwardExtensionMotor(),
-      () -> extensionSubsystem.stopExtensionMotor()));
-    driverB.povRight().whileTrue(new StartEndCommand(() -> extensionSubsystem.reverseExtensionMotor(),
-      () -> extensionSubsystem.stopExtensionMotor()));
-
-
     /* Operator Buttons...................................... */
     
     /*FUTURE- add level 2 & level 3 score ready position button */
@@ -129,14 +118,10 @@ public class RobotContainer {
       () -> extensionSubsystem.stopExtensionMotor()));
 
     /*Manual Intake*/
-    operator.leftBumper().onTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
-      () -> intakeSubsystem.stopWristMotor()));
-    operator.rightBumper().onTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
-      () -> intakeSubsystem.stopWristMotor()));
-    operator.leftTrigger().onTrue(new StartEndCommand(() -> intakeSubsystem.forwardWristMotor(),
-      () -> intakeSubsystem.stopWristMotor()));
-    operator.rightTrigger().onTrue(new StartEndCommand(() -> intakeSubsystem.reverseWristMotor(),
-      () -> intakeSubsystem.stopWristMotor()));
+    operator.leftBumper().onTrue(new InstantCommand(() -> extensionSubsystem.intakeExtension()));
+    operator.rightBumper().onTrue(new InstantCommand(() -> extensionSubsystem.stowedExtension()));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> elevatorSubsystem.intakeElevator()));
+    operator.rightTrigger().onTrue(new InstantCommand(() -> elevatorSubsystem.stowedElevator()));
 
   }  
 
