@@ -89,15 +89,15 @@ public class RobotContainer {
   
      /*SCORE */
      driverB.rightTrigger().whileFalse(new InstantCommand(() -> {
-        intakeSubsystem.reverseIntakeMotor();                     
-        elevatorSubsystem.stowedElevator();
-        new WaitCommand(1.0);
-        intakeSubsystem.stopIntakeMotor();  
+        intakeSubsystem.reverseIntakeMotor();
+        new WaitCommand(0.5);                     
+        intakeSubsystem.stopIntakeMotor(); 
         extensionSubsystem.stowedExtension();
+        elevatorSubsystem.stowedElevator();
           }));
 
 
-  /* Operator Buttons......................................................................................................... */
+/* Operator Buttons......................................................................................................... */
     
     /*Positions Elevator/Extension*/
     operator.a().onTrue(new InstantCommand(() -> {elevatorSubsystem.l2Elevator(); extensionSubsystem.l2Extension(); }));
