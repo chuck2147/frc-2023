@@ -45,8 +45,6 @@ public class RobotContainer {
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
   
-  //private final int R_Trigger = XboxController.Axis.kRightTrigger.value;//just trying to use triggers
-
   /* Driver Buttons */
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value); //change in future
