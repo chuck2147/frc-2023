@@ -34,7 +34,6 @@ public class ExtensionSubsystem extends SubsystemBase {
   double stowedExtension = 0;
 
 
-  
   public ExtensionSubsystem() {
 
     extensionMotor.restoreFactoryDefaults();
