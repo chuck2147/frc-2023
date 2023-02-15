@@ -32,8 +32,8 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
   double l3ElevatorPosition = 100000;
   double l2ElevatorPosition = 50000;
   double humanElevatorPosition = 25000;
-  double stowedElevatorPosition = 0; //inside frame perimeter
-  double intakeElevatorPosition = -10000; //negative because 0 is set when robot is turn on and is inside frame perimeter
+  double stowedElevatorPosition = 0; //starting configuration set when robot turned on
+  double intakeElevatorPosition = -10000; //negative because will be lower than starting configuration
 
   public ElevatorSubsystem() {
 
@@ -76,6 +76,11 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
     elevatorBreak.set(Value.kForward);
   }
   
+  public void humanElevator() {
+    elevatorMotor.set(ControlMode.Position, humanElevatorPosition);
+    elevatorBreak.set(Value.kForward);
+  }
+
   //Do we need this?
   public void resetEncoder() {
     elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
