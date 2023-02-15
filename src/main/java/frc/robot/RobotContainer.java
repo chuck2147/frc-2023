@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.exampleAuto;
@@ -75,23 +76,27 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
      
-    /* Driver Buttons........................................ */
+    /* Driver Buttons.......................................................................................................... */
     driverB.back().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
 
-    /////////////////////////////////////////Old Intake code////////////////////////////////////////////////
     // /*Intake GP */
-    // driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
-    //   () -> intakeSubsystem.stopIntakeMotor()));  //add intake position out/stowed
-
-    // /*SCORE (FUTURE- add stowed intake*/
-    // driverB.rightTrigger().whileTrue(new InstantCommand(() -> intakeSubsystem.reverseIntakeMotor())); 
-    // driverB.rightTrigger().whileFalse(new InstantCommand(() -> {
-    //                       extensionSubsystem.stowedExtension(); 
-    //                       new WaitCommand(0.5);
-    //                       elevatorSubsystem.stowedElevator();
-    //                       }));
-    /////////////////////////////////////////Old Intake code////////////////////////////////////////////////
+     driverB.rightTrigger().whileTrue(new InstantCommand(() -> {
+        intakeSubsystem.forwardIntakeMotor(); 
+        extensionSubsystem.intakeExtension(); 
+        new WaitCommand(1.0);
+        elevatorSubsystem.intakeElevator();
+     }));
+  
+     /*SCORE */
+     driverB.rightTrigger().whileFalse(new InstantCommand(() -> {
+        intakeSubsystem.reverseIntakeMotor();                     
+        elevatorSubsystem.stowedElevator();
+        new WaitCommand(1.0);
+        intakeSubsystem.stopIntakeMotor();  
+        extensionSubsystem.stowedExtension();
+          }));
+    
    
     /*Manual Intake*/
     driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
@@ -101,37 +106,34 @@ public class RobotContainer {
   
 
 
-    /* Operator Buttons...................................... */
+    /* Operator Buttons......................................................................................................... */
     
-    /*FUTURE- add level 2 & level 3 score ready position button */
-    /*Positions Elevator/Extension seperate*/
-    operator.a().onTrue(new InstantCommand(() -> elevatorSubsystem.l2Elevator()));
-    operator.y().onTrue(new InstantCommand(() -> elevatorSubsystem.l3Elevator()));
-    operator.b().onTrue(new InstantCommand(() -> extensionSubsystem.l2Extension()));
-    operator.x().onTrue(new InstantCommand(() -> extensionSubsystem.l3Extension()));
+    /*Positions Elevator/Extension*/
+    operator.a().onTrue(new InstantCommand(() -> {elevatorSubsystem.l2Elevator(); extensionSubsystem.l2Extension(); }));
+    operator.y().onTrue(new InstantCommand(() -> {elevatorSubsystem.l3Elevator(); extensionSubsystem.l3Extension(); }));
+   
+    /*Positions Human Station*/
+    operator.b().whileTrue(new InstantCommand(() -> {
+        extensionSubsystem.humanExtension();
+        elevatorSubsystem.humanElevator();
+        intakeSubsystem.forwardIntakeMotor();
+          }));
+    operator.b().whileFalse(new InstantCommand(() -> {
+        extensionSubsystem.stowedExtension();
+        elevatorSubsystem.stowedElevator();
+        intakeSubsystem.stopIntakeMotor();
+          }));
 
-    /*Stowed- is needed????? 
-    operator.rightTrigger().onTrue(new SequentialCommandGroup 
-      (new InstantCommand(() -> extensionSubsystem.stowedExtension()), 
-      (new WaitCommand(0.5)), 
-      (new InstantCommand(() -> elevatorSubsystem.stowedElevator()))));
-*/ // ..
-// ..
     /*Manual Elevator/Extension */
     operator.povDown().whileTrue(new StartEndCommand(() -> elevatorSubsystem.downElevatorMotor(),
-      () -> elevatorSubsystem.stopElevatorMotor()));
+      () -> elevatorSubsystem.stopElevatorMotor() ));
     operator.povUp().whileTrue(new StartEndCommand(() -> elevatorSubsystem.upElevatorMotor(),
-      () -> elevatorSubsystem.stopElevatorMotor()));
+      () -> elevatorSubsystem.stopElevatorMotor()) );
     operator.povLeft().whileTrue(new StartEndCommand(() -> extensionSubsystem.forwardExtensionMotor(),
-      () -> extensionSubsystem.stopExtensionMotor()));
+      () -> extensionSubsystem.stopExtensionMotor() ));
     operator.povRight().whileTrue(new StartEndCommand(() -> extensionSubsystem.reverseExtensionMotor(),
-      () -> extensionSubsystem.stopExtensionMotor()));
+      () -> extensionSubsystem.stopExtensionMotor() ));
 
-    /*Manual Intake*/
-    operator.leftBumper().onTrue(new InstantCommand(() -> extensionSubsystem.intakeExtension()));
-    operator.rightBumper().onTrue(new InstantCommand(() -> extensionSubsystem.stowedExtension()));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> elevatorSubsystem.intakeElevator()));
-    operator.rightTrigger().onTrue(new InstantCommand(() -> elevatorSubsystem.stowedElevator()));
 
   }  
 
