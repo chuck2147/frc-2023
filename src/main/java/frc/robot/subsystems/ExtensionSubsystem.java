@@ -28,9 +28,9 @@ public class ExtensionSubsystem extends SubsystemBase {
 
 //PID Setpoint....................................................
   double l3Extension = 80;
-  double l2Extension = 40;
-  double humanExtension = 20;
-  double intakeExtension = 10;
+  double l2Extension = 50;
+  double humanExtension = 40;
+  double intakeExtension = 30;
   double stowedExtension = 0;
 
 
@@ -69,6 +69,10 @@ public void l2Extension () {
   }
 
 public void intakeExtension () {
+   extension_pidController.setReference(l2Extension, CANSparkMax.ControlType.kPosition);
+   }
+
+public void humanExtension () {
    extension_pidController.setReference(l2Extension, CANSparkMax.ControlType.kPosition);
    }
 
