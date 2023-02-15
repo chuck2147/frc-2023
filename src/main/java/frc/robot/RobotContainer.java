@@ -25,7 +25,6 @@ import frc.robot.subsystems.Swerve;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
-//...
 
 public class RobotContainer {
   /* Controllers */
@@ -115,8 +114,8 @@ public class RobotContainer {
       (new InstantCommand(() -> extensionSubsystem.stowedExtension()), 
       (new WaitCommand(0.5)), 
       (new InstantCommand(() -> elevatorSubsystem.stowedElevator()))));
-*/ // ..
-// ..
+    */
+
     /*Manual Elevator/Extension */
     operator.povDown().whileTrue(new StartEndCommand(() -> elevatorSubsystem.downElevatorMotor(),
       () -> elevatorSubsystem.stopElevatorMotor()));
