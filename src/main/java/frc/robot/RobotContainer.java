@@ -76,11 +76,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
      
-    /* Driver Buttons.......................................................................................................... */
+  /* Driver Buttons.......................................................................................................... */
     driverB.back().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-
-    // /*Intake GP */
+    // /*Intake GamePiece */
      driverB.rightTrigger().whileTrue(new InstantCommand(() -> {
         intakeSubsystem.forwardIntakeMotor(); 
         extensionSubsystem.intakeExtension(); 
@@ -96,17 +95,9 @@ public class RobotContainer {
         intakeSubsystem.stopIntakeMotor();  
         extensionSubsystem.stowedExtension();
           }));
-    
-   
-    /*Manual Intake*/
-    driverB.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
-      () -> intakeSubsystem.stopIntakeMotor()));
-    driverB.rightBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
-      () -> intakeSubsystem.stopIntakeMotor()));
-  
 
 
-    /* Operator Buttons......................................................................................................... */
+  /* Operator Buttons......................................................................................................... */
     
     /*Positions Elevator/Extension*/
     operator.a().onTrue(new InstantCommand(() -> {elevatorSubsystem.l2Elevator(); extensionSubsystem.l2Extension(); }));
