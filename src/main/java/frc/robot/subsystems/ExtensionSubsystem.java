@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -95,8 +96,14 @@ public void resetEncoder() {
     extensionMotor.set(0);
 }
 
+public double getExtensionPosition() {
+  return extension_encoder.getPosition();
+}
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("Extension Position", getExtensionPosition());
+
   }
 }

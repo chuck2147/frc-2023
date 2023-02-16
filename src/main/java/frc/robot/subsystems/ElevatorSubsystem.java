@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -81,11 +82,6 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
     elevatorBreak.set(Value.kForward);
   }
 
-  //Do we need this?
-  public void resetEncoder() {
-    elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
-  }
-
     public void upElevatorMotor() {
       System.out.println("going up!");
       elevatorMotor.set(ControlMode.PercentOutput, 1);
@@ -94,7 +90,7 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
   
     public void downElevatorMotor() {
       System.out.println("going down...");
-      elevatorMotor.set(ControlMode.PercentOutput, -0.1);
+      elevatorMotor.set(ControlMode.PercentOutput, -0.5);
       elevatorBreak.set(Value.kForward);
     }
   
@@ -103,9 +99,21 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
       elevatorBreak.set(Value.kReverse);
   }
 
+    public double getElevatorEncoder() {
+      return elevatorMotor.getSelectedSensorVelocity();
+    }  
+  
+  //Do we need this?
+    public void resetElevatorEncoder() {
+      elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
+    }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("Elevator Encoder", getElevatorEncoder());
+
   }
 
   @Override
