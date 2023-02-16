@@ -46,7 +46,7 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
     /* set up followers */
     elevatorMotorFollower.configFactoryDefault();
     elevatorMotorFollower.setNeutralMode(NeutralMode.Brake);
-    elevatorMotorFollower.setInverted(TalonFXInvertType.Clockwise);//check
+    elevatorMotorFollower.setInverted(TalonFXInvertType.CounterClockwise);//check
     elevatorMotorFollower.follow(elevatorMotor);
 
     // set PID coefficients
