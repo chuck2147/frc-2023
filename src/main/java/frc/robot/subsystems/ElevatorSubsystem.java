@@ -84,7 +84,7 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
 
     public void upElevatorMotor() {
       System.out.println("going up!");
-      elevatorMotor.set(ControlMode.PercentOutput, 1);
+      elevatorMotor.set(ControlMode.PercentOutput, .5);
       elevatorBreak.set(Value.kForward);
     }
   
