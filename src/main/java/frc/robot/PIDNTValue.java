@@ -1,34 +1,35 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMax;
 
 public class PIDNTValue {
-  public PIDNTValue(double kP, double kI, double kD, double kF, TalonFX motor, String name) {
+  public PIDNTValue(double kP, double kI, double kD, double kF, TalonFX elevatorMotor, String name) {
     
     NTValue kPNTValue = new NTValue(kP, "kP " + name, "PID " + name);
     kPNTValue.addListener((val) -> {
-      motor.config_kP(0, val, 30);
+      elevatorMotor.config_kP(0, val, 30);
     });
-    motor.config_kP(0, kPNTValue.value, 30);
+    elevatorMotor.config_kP(0, kPNTValue.value, 30);
    
     NTValue kINTValue = new NTValue(kI, "kI " + name, "PID " + name); 
     kINTValue.addListener((val) -> {
-      motor.config_kI(0, val, 30);
+      elevatorMotor.config_kI(0, val, 30);
     });
-    motor.config_kI(0, kINTValue.value, 30);
+    elevatorMotor.config_kI(0, kINTValue.value, 30);
   
     NTValue kDNTValue = new NTValue(kD, "kD " + name, "PID " + name);  
     kDNTValue.addListener((val) -> {
-      motor.config_kD(0, val, 30);
+      elevatorMotor.config_kD(0, val, 30);
     });
-    motor.config_kD(0, kDNTValue.value, 30);
+    elevatorMotor.config_kD(0, kDNTValue.value, 30);
     
     NTValue kFNTValue = new NTValue(kF, "kF " + name, "PID " + name);
     kFNTValue.addListener((val) -> {
-      motor.config_kF(0, val, 30);
+      elevatorMotor.config_kF(0, val, 30);
     });
     
-    motor.config_kF(0, kFNTValue.value, 30);
+    elevatorMotor.config_kF(0, kFNTValue.value, 30);
   }
 }
 

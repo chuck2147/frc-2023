@@ -122,6 +122,8 @@ public class RobotContainer {
     operator.povRight().whileTrue(new StartEndCommand(() -> extensionSubsystem.reverseExtensionMotor(),
       () -> extensionSubsystem.stopExtensionMotor() ));
 
+      operator.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor() ));
 
   }  
 

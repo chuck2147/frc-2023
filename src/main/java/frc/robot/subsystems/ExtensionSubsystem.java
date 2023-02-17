@@ -9,6 +9,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.Topic;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,6 +26,7 @@ public class ExtensionSubsystem extends SubsystemBase {
   double kP = 0.5; 
   double kI = 0;
   double kD = 0; 
+  double kF = 0; 
   double kIz = 0; 
   double kFF = 0; 
   double kMaxOutput = 1; 
@@ -33,6 +38,28 @@ public class ExtensionSubsystem extends SubsystemBase {
   double humanExtension = 40;
   double intakeExtension = 30;
   double stowedExtension = 0;
+
+  
+  // ShuffleboardTab tab = Shuffleboard.getTab("NTValues Extension");
+  
+;
+  // Topic l2ExtensionPositionEntry = tab.add("L2 Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // Topic l2ElevatorPositionGraphEntry = tab.add("L2 Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
+ 
+  // Topic l3ExtensionPositionEntry = tab.add("L3 Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  //Topic l3ElevatorPositionGraphEntry = tab.add("L3 Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
+ 
+  // Topic humanExtensionPositionEntry = tab.add("Human Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  //Topic humanElevatorPositionGraphEntry = tab.add("Human Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
+ 
+  // Topic stowedExtensionPositonEntry = tab.add("Stowed Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // //Topic stowedElevatorPositonGraphEntry = tab.add("Stowed Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
+ 
+  // Topic intakeExtensionPositionEntry = tab.add("Intake Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // // Topic intakeElevatorPositionGraphEntry = tab.add("Intake Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
+  
+
+  
 
 
   public ExtensionSubsystem() {
@@ -58,6 +85,9 @@ public class ExtensionSubsystem extends SubsystemBase {
     extension_pidController.setIZone(kIz);
     extension_pidController.setFF(kFF);
     extension_pidController.setOutputRange(kMinOutput, kMaxOutput);
+
+    // new PIDNTValue(kP, kI, kD, kF, extensionMotor,"Extension Motor");
+
   }
 
 public void l3Extension () {
@@ -104,6 +134,22 @@ public double getExtensionPosition() {
     // This method will be called once per scheduler run
 
     SmartDashboard.putNumber("Extension Position", getExtensionPosition());
+
+    // // l2ExtensionPositionEntry.genericPublish("double").setDouble(l2Extension);
+    // //l2ElevatorPositionGraphEntry.genericPublish("double").setDouble(l2ElevatorPosition);
+
+    // // l3ExtensionPositionEntry.genericPublish("double").setDouble(l3Extension);
+    // // l3ElevatorPositionGraphEntry.genericPublish("double").setDouble(l3ElevatorPosition);
+
+    // // humanExtensionPositionEntry.genericPublish("double").setDouble(humanExtension);
+    // // humanElevatorPositionGraphEntry.genericPublish("double").setDouble(humanElevatorPosition);
+
+    // stowedExtensionPositonEntry.genericPublish("double").setDouble(stowedExtension);
+    // // stowedElevatorPositonGraphEntry.genericPublish("double").setDouble(stowedElevatorPosition);
+
+    // intakeExtensionPositionEntry.genericPublish("double").setDouble(intakeExtension);
+    // // intakeElevatorPositionGraphEntry.genericPublish("double").setDouble(intakeElevatorPosition);
+
 
   }
 }
