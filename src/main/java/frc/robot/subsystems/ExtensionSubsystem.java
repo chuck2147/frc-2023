@@ -9,10 +9,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.networktables.Topic;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,40 +29,23 @@ public class ExtensionSubsystem extends SubsystemBase {
   double kMinOutput = -1;
 
 //PID Setpoint....................................................
-  double l3Extension = 80;
-  double l2Extension = 50;
-  double humanExtension = 40;
-  double intakeExtension = 30;
+  double l3Extension = 3.786;
+  double l2Extension = 2.976;
+  double humanExtension = 1.6;
+  double intakeExtension = 1.6;
   double stowedExtension = 0;
-
   
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues Extension");
-  
-;
   // Topic l2ExtensionPositionEntry = tab.add("L2 Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  // Topic l2ElevatorPositionGraphEntry = tab.add("L2 Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
- 
   // Topic l3ExtensionPositionEntry = tab.add("L3 Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  //Topic l3ElevatorPositionGraphEntry = tab.add("L3 Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
- 
   // Topic humanExtensionPositionEntry = tab.add("Human Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  //Topic humanElevatorPositionGraphEntry = tab.add("Human Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
- 
-  // Topic stowedExtensionPositonEntry = tab.add("Stowed Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  // //Topic stowedElevatorPositonGraphEntry = tab.add("Stowed Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
- 
   // Topic intakeExtensionPositionEntry = tab.add("Intake Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  // // Topic intakeElevatorPositionGraphEntry = tab.add("Intake Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
-  
-
-  
-
 
   public ExtensionSubsystem() {
 
     extensionMotor.restoreFactoryDefaults();
     extensionMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    extensionMotor.setInverted(false); 
+    extensionMotor.setInverted(true); 
   
     extensionMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
     extensionMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
@@ -115,11 +94,11 @@ public void resetEncoder() {
   }
 
   public void forwardExtensionMotor() {
-    extensionMotor.set(0.2);
+    extensionMotor.set(1);
   }
 
   public void reverseExtensionMotor() {
-    extensionMotor.set(-.2);
+    extensionMotor.set(-1);
   }
 
   public void stopExtensionMotor() {
@@ -136,20 +115,10 @@ public double getExtensionPosition() {
     SmartDashboard.putNumber("Extension Position", getExtensionPosition());
 
     // // l2ExtensionPositionEntry.genericPublish("double").setDouble(l2Extension);
-    // //l2ElevatorPositionGraphEntry.genericPublish("double").setDouble(l2ElevatorPosition);
-
     // // l3ExtensionPositionEntry.genericPublish("double").setDouble(l3Extension);
-    // // l3ElevatorPositionGraphEntry.genericPublish("double").setDouble(l3ElevatorPosition);
-
     // // humanExtensionPositionEntry.genericPublish("double").setDouble(humanExtension);
     // // humanElevatorPositionGraphEntry.genericPublish("double").setDouble(humanElevatorPosition);
-
-    // stowedExtensionPositonEntry.genericPublish("double").setDouble(stowedExtension);
-    // // stowedElevatorPositonGraphEntry.genericPublish("double").setDouble(stowedElevatorPosition);
-
     // intakeExtensionPositionEntry.genericPublish("double").setDouble(intakeExtension);
-    // // intakeElevatorPositionGraphEntry.genericPublish("double").setDouble(intakeElevatorPosition);
-
 
   }
 }
