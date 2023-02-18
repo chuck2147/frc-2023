@@ -42,27 +42,13 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
   double stowedElevatorPosition = 0; //starting configuration set when robot turned on
   double intakeElevatorPosition = -10000; //negative because will be lower than starting configuration
 
-
-
+  
   ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
-  
-;
   Topic l2ElevatorPositionEntry = tab.add("L2 Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  // Topic l2ElevatorPositionGraphEntry = tab.add("L2 Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
- 
   Topic l3ElevatorPositionEntry = tab.add("L3 Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  //Topic l3ElevatorPositionGraphEntry = tab.add("L3 Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
- 
   Topic humanElevatorPositionEntry = tab.add("Human Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  //Topic humanElevatorPositionGraphEntry = tab.add("Human Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
- 
-  Topic stowedElevatorPositonEntry = tab.add("Stowed Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  //Topic stowedElevatorPositonGraphEntry = tab.add("Stowed Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
- 
   Topic intakeElevatorPositionEntry = tab.add("Intake Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  // Topic intakeElevatorPositionGraphEntry = tab.add("Intake Graph Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry().getTopic();
   
-
   
   public ElevatorSubsystem() {
 
@@ -147,19 +133,9 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
     SmartDashboard.putNumber("Elevator Encoder", getElevatorEncoder());
 
     l2ElevatorPositionEntry.genericPublish("double").setDouble(l2ElevatorPosition);
-    // l2ElevatorPositionGraphEntry.genericPublish("double").setDouble(l2ElevatorPosition);
-
     l3ElevatorPositionEntry.genericPublish("double").setDouble(l3ElevatorPosition);
-    // l3ElevatorPositionGraphEntry.genericPublish("double").setDouble(l3ElevatorPosition);
-
-     humanElevatorPositionEntry.genericPublish("double").setDouble(humanElevatorPosition);
-    // humanElevatorPositionGraphEntry.genericPublish("double").setDouble(humanElevatorPosition);
-
-    stowedElevatorPositonEntry.genericPublish("double").setDouble(stowedElevatorPosition);
-    // stowedElevatorPositonGraphEntry.genericPublish("double").setDouble(stowedElevatorPosition);
-
+    humanElevatorPositionEntry.genericPublish("double").setDouble(humanElevatorPosition);
     intakeElevatorPositionEntry.genericPublish("double").setDouble(intakeElevatorPosition);
-    // intakeElevatorPositionGraphEntry.genericPublish("double").setDouble(intakeElevatorPosition);
 
     
   }

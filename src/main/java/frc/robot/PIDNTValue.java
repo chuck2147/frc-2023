@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.revrobotics.CANSparkMax;
 
 public class PIDNTValue {
   public PIDNTValue(double kP, double kI, double kD, double kF, TalonFX elevatorMotor, String name) {
