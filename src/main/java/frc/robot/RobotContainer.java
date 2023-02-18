@@ -76,7 +76,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
      
 /* Driver Buttons.......................................................................................................... */
-    driverB.back().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    driverB.start().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
    
     /*Intaking GamePiece */
@@ -85,7 +85,7 @@ public class RobotContainer {
         intakeSubsystem.forwardIntakeMotor(); 
         extensionSubsystem.intakeExtension();
         }),
-        new WaitCommand(1.0), 
+        new WaitCommand(0.5), 
         new InstantCommand(() -> 
         elevatorSubsystem.intakeElevator()
         )))
