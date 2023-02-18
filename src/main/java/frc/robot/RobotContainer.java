@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -76,22 +77,42 @@ public class RobotContainer {
 /* Driver Buttons.......................................................................................................... */
     driverB.back().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-    // /*Intake GamePiece */
-     driverB.rightTrigger().whileTrue(new InstantCommand(() -> {
+   
+    /*Intaking GamePiece */
+     driverB.leftTrigger()
+      .whileTrue(new SequentialCommandGroup(new InstantCommand(() -> { 
         intakeSubsystem.forwardIntakeMotor(); 
-        extensionSubsystem.intakeExtension(); 
-        new WaitCommand(1.0);
-        elevatorSubsystem.intakeElevator();
-     }));
+        extensionSubsystem.intakeExtension();
+        }),
+        new WaitCommand(1.0), 
+        new InstantCommand(() -> 
+        elevatorSubsystem.intakeElevator()
+        )))
+      .whileFalse(new SequentialCommandGroup(new InstantCommand(() -> {
+        intakeSubsystem.stopIntakeMotor();
+        elevatorSubsystem.stowedElevator();
+        }),
+        new WaitCommand(1.0),
+        new InstantCommand(() ->
+        extensionSubsystem.stowedExtension()
+        )));
+
   
-     /*SCORE */
-     driverB.rightTrigger().whileFalse(new InstantCommand(() -> {
-        intakeSubsystem.reverseIntakeMotor();
-        new WaitCommand(0.5);                     
+    /*SCORE */ 
+      driverB.rightTrigger()
+       .onTrue(new SequentialCommandGroup(new InstantCommand(() -> 
+        intakeSubsystem.reverseIntakeMotor()),
+        new WaitCommand(1.0),
+        new InstantCommand(() -> {                    
         intakeSubsystem.stopIntakeMotor(); 
         extensionSubsystem.stowedExtension();
         elevatorSubsystem.stowedElevator();
-          }));
+        })));
+
+//manual test of intake motor...remove when issue solved
+          driverB.a().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
+          () -> intakeSubsystem.stopIntakeMotor() 
+          ));
 
 
 /* Operator Buttons......................................................................................................... */
@@ -112,7 +133,7 @@ public class RobotContainer {
         intakeSubsystem.stopIntakeMotor();
           }));
 
-    /*Manual Elevator/Extension */
+    /*Manual Elevator and Extension */
     operator.povDown().whileTrue(new StartEndCommand(() -> elevatorSubsystem.downElevatorMotor(),
       () -> elevatorSubsystem.stopElevatorMotor() ));
     operator.povUp().whileTrue(new StartEndCommand(() -> elevatorSubsystem.upElevatorMotor(),
@@ -122,8 +143,7 @@ public class RobotContainer {
     operator.povRight().whileTrue(new StartEndCommand(() -> extensionSubsystem.reverseExtensionMotor(),
       () -> extensionSubsystem.stopExtensionMotor() ));
 
-      operator.leftBumper().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
-      () -> intakeSubsystem.stopIntakeMotor() ));
+
 
   }  
 

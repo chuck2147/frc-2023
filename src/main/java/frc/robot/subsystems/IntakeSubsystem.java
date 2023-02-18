@@ -17,11 +17,11 @@ public class IntakeSubsystem extends SubsystemBase{
     }
     
     public void forwardIntakeMotor() {
-        intakeMotor.set(1);
+        intakeMotor.set(1.0);
       }
     
       public void reverseIntakeMotor() {
-        intakeMotor.set(-1);
+        intakeMotor.set(-1.0);;
       }
 
       public void stopIntakeMotor() {
