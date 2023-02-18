@@ -115,11 +115,11 @@ public void resetEncoder() {
   }
 
   public void forwardExtensionMotor() {
-    extensionMotor.set(0.5);
+    extensionMotor.set(0.2);
   }
 
   public void reverseExtensionMotor() {
-    extensionMotor.set(-.5);
+    extensionMotor.set(-.2);
   }
 
   public void stopExtensionMotor() {
