@@ -10,13 +10,9 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.networktables.Topic;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,24 +26,24 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
   Constants.ELEVATOR_BRAKE_FORWARD, Constants.ELEVATOR_BRAKE_REVERSE);
 
   // PID coefficients............................................
-  double kP = 0.01; 
+  double kP = 1; 
   double kI = 0;
-  double kD = 0; 
+  double kD = 0.001; 
   double kF = 0; 
 
   //PID Setpoint....................................................
-  double l3ElevatorPosition = 74500;
-  double l2ElevatorPosition = 48500;
+  double l3ElevatorPosition = 74500; //100000
+  double l2ElevatorPosition = 48500; //50000
   double humanElevatorPosition = 70000;
   double stowedElevatorPosition = 0; //starting configuration set when robot turned on
-  double intakeElevatorPosition = -15000; //negative because will be lower than starting configuration
+  double intakeElevatorPosition = -12000; //negative because will be lower than starting configuration
 
-
-  ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
-  Topic l2ElevatorPositionEntry = tab.add("L2 Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  Topic l3ElevatorPositionEntry = tab.add("L3 Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  Topic humanElevatorPositionEntry = tab.add("Human Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  Topic intakeElevatorPositionEntry = tab.add("Intake Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  //Shuffleboard entries...........................................
+  // ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
+  // Topic l2ElevatorPositionEntry = tab.add("L2 Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // Topic l3ElevatorPositionEntry = tab.add("L3 Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // Topic humanElevatorPositionEntry = tab.add("Human Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // Topic intakeElevatorPositionEntry = tab.add("Intake Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
   
   
   public ElevatorSubsystem() {
@@ -132,10 +128,10 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
 
     SmartDashboard.putNumber("Elevator Encoder", getElevatorEncoder());
 
-    l2ElevatorPositionEntry.genericPublish("double").setDouble(l2ElevatorPosition);
-    l3ElevatorPositionEntry.genericPublish("double").setDouble(l3ElevatorPosition);
-    humanElevatorPositionEntry.genericPublish("double").setDouble(humanElevatorPosition);
-    intakeElevatorPositionEntry.genericPublish("double").setDouble(intakeElevatorPosition);
+    // l2ElevatorPositionEntry.genericPublish("double").setDouble(l2ElevatorPosition);
+    // l3ElevatorPositionEntry.genericPublish("double").setDouble(l3ElevatorPosition);
+    // humanElevatorPositionEntry.genericPublish("double").setDouble(humanElevatorPosition);
+    // intakeElevatorPositionEntry.genericPublish("double").setDouble(intakeElevatorPosition);
 
     
   }

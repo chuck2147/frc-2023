@@ -19,7 +19,7 @@ public class ExtensionSubsystem extends SubsystemBase {
   private SparkMaxPIDController extension_pidController;
 
 // PID coefficients............................................
-  double kP = 0.5; 
+  double kP = 0.2; 
   double kI = 0;
   double kD = 0; 
   double kF = 0; 
@@ -29,10 +29,10 @@ public class ExtensionSubsystem extends SubsystemBase {
   double kMinOutput = -1;
 
 //PID Setpoint....................................................
-  double l3Extension = 3.786;
-  double l2Extension = 2.976;
-  double humanExtension = 1.6;
-  double intakeExtension = 1.6;
+  double l3Extension = 20.19; //3.786
+  double l2Extension = 14.88; //2.976
+  double humanExtension = 8; //1.6
+  double intakeExtension = 8; //1.6
   double stowedExtension = 0;
   
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues Extension");
@@ -45,7 +45,7 @@ public class ExtensionSubsystem extends SubsystemBase {
 
     extensionMotor.restoreFactoryDefaults();
     extensionMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    extensionMotor.setInverted(true); 
+    extensionMotor.setInverted(false); 
   
     extensionMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
     extensionMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
