@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -14,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.autos.blankAuto;
 import frc.robot.autos.exampleAuto;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -51,6 +54,10 @@ public class RobotContainer {
   private final JoystickButton slowSpeed =
       new JoystickButton(driver, XboxController.Button.kRightBumper.value); //change in future
 
+ /*Auto Selector */
+ private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
@@ -64,7 +71,16 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+    configureAutoSelector();
+
   }
+  private void configureAutoSelector() {
+
+    autoChooser.setDefaultOption("Empty Auto", new blankAuto(s_Swerve, intakeSubsystem));
+    autoChooser.addOption("Example Auto", new exampleAuto(s_Swerve, intakeSubsystem));
+    SmartDashboard.putData("Auto Selector", autoChooser);
+  }
+
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -155,6 +171,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new exampleAuto(s_Swerve, intakeSubsystem);
+    return autoChooser.getSelected();
   }
 }

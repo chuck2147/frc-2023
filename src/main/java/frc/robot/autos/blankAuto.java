@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Swerve;
 
-public class emptyAuto extends SequentialCommandGroup {
+public class blankAuto extends SequentialCommandGroup {
  
-  public emptyAuto(Swerve s_Swerve, IntakeSubsystem intakeSubsystem) {
+  public blankAuto(Swerve s_Swerve, IntakeSubsystem intakeSubsystem) {
     addRequirements(s_Swerve, intakeSubsystem);
     
     // addCommands(
