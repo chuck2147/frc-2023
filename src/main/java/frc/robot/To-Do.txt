@@ -3,6 +3,6 @@
 - Set up PIDNTvalue in elevator ////////////
 - Set up PIDNTvalue in extension //old code
 - Debug PIDNTvalue
-- Figure out auto chooser (look at docs "Setting up sendablechooser" or old code)
+- /////////Figure out auto chooser (look at docs "Setting up sendablechooser" or old code)
 - CAN ids on new robot
 - Limelight? Figure out priority before spending any time on it
