@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.Topic;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -79,6 +83,13 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Empty Auto", new blankAuto(s_Swerve, intakeSubsystem));
     autoChooser.addOption("Example Auto", new exampleAuto(s_Swerve, intakeSubsystem));
     SmartDashboard.putData("Auto Selector", autoChooser);
+
+    // ShuffleboardTab tab = Shuffleboard.getTab("Auto Chooser");
+    // Topic autoChooserEntry = tab.add("AutoChooser", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+    // autoChooserEntry.genericPublish("double").setDouble(autoChooser);
+
+    
+
   }
 
 
@@ -171,6 +182,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return autoChooser.getSelected();
+    return new exampleAuto(s_Swerve, intakeSubsystem);
   }
 }
