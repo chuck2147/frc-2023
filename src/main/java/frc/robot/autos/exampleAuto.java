@@ -1,6 +1,7 @@
 package frc.robot.autos;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -13,9 +14,11 @@ public class exampleAuto extends SequentialCommandGroup {
     addRequirements(s_Swerve, intakeSubsystem);
   
     addCommands(
-      new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true )).withTimeout(1.7),
-      new RunCommand(() -> s_Swerve.drive(new Translation2d(2.4, 0), 0, true, true )).withTimeout(1.25),
-      new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true )).withTimeout(4.7)
+      new RunCommand(() -> intakeSubsystem.reverseIntakeMotor()).withTimeout(0.3),
+      new InstantCommand(() -> intakeSubsystem.stopIntakeMotor()),
+      new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true )).withTimeout(3.2),
+      new RunCommand(() -> intakeSubsystem.stopIntakeMotor()).withTimeout(0.5),
+      new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true )).withTimeout(2.559)
     );
     
     // addCommands(
