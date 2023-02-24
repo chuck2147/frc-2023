@@ -53,7 +53,9 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
     elevatorMotor.setInverted(TalonFXInvertType.Clockwise);//check
     elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);  
     elevatorMotor.setSensorPhase(true);//check
-  
+    elevatorMotor.configPeakOutputForward(0.5);
+    elevatorMotor.configPeakOutputReverse(-0.5);
+
     /* set up followers */
     elevatorMotorFollower.configFactoryDefault();
     elevatorMotorFollower.setNeutralMode(NeutralMode.Brake);

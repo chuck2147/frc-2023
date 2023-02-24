@@ -45,10 +45,26 @@ public final class Constants {
 
     public static final SwerveDriveKinematics swerveKinematics =
         new SwerveDriveKinematics(
-            new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),//front left? +-
-            new Translation2d(wheelBase / 2.0, trackWidth / 2.0),//front right? ++
-            new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),//back left?-+
-            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));//back right?--
+          new Translation2d(wheelBase / 2.0, -trackWidth/ 2.0),
+          new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+          new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+          new Translation2d(-wheelBase / 2.0, -trackWidth/ 2.0));
+
+/*             What (all) others have...
+          new Translation2d(wheelBase / 2.0, trackWidth/ 2.0),
+          new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+          new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0),
+          new Translation2d(-wheelBase / 2.0, trackWidth/ 2.0)); 
+ * 
+ *             What we have...
+         new Translation2d(wheelBase / 2.0, -trackWidth/ 2.0),
+          new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+          new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+          new Translation2d(-wheelBase / 2.0, -trackWidth/ 2.0));
+ */
+
+
+
 
     /* Swerve Voltage Compensation */
     public static final double voltageComp = 12.0;

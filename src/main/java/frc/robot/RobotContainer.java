@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.Topic;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.emptyAuto;
+import frc.robot.autos.blankAuto;
 import frc.robot.autos.exampleAuto;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -54,8 +58,8 @@ public class RobotContainer {
   private final JoystickButton slowSpeed =
       new JoystickButton(driver, XboxController.Button.kRightBumper.value); //change in future
 
-  /* Auto Selector........................................................................................................... */
-  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+ /*Auto Selector */
+ private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -76,9 +80,16 @@ public class RobotContainer {
   }
   private void configureAutoSelector() {
 
-    autoChooser.setDefaultOption("Empty Auto", new emptyAuto(s_Swerve, intakeSubsystem));
+    autoChooser.setDefaultOption("Empty Auto", new blankAuto(s_Swerve, intakeSubsystem));
     autoChooser.addOption("Example Auto", new exampleAuto(s_Swerve, intakeSubsystem));
     SmartDashboard.putData("Auto Selector", autoChooser);
+
+    // ShuffleboardTab tab = Shuffleboard.getTab("Auto Chooser");
+    // Topic autoChooserEntry = tab.add("AutoChooser", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+    // autoChooserEntry.genericPublish("double").setDouble(autoChooser);
+
+    
+
   }
 
 
