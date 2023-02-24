@@ -29,7 +29,7 @@ public final class Constants {
 
     /* Gyro Constants */
     public static final int pigeonID = 5;
-    public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
+    public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
     /* Drivetrain Constants */
     public static final double trackWidth = Units.inchesToMeters(22.00);
