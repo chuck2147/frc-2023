@@ -34,9 +34,9 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
   //PID Setpoint....................................................
   double l3ElevatorPosition = 74500; //100000
   double l2ElevatorPosition = 48500; //50000
-  double humanElevatorPosition = 70000;
+  double humanElevatorPosition = 70000; //170518
   double stowedElevatorPosition = 0; //starting configuration set when robot turned on
-  double intakeElevatorPosition = -12000; //negative because will be lower than starting configuration
+  double intakeElevatorPosition = -14000; //negative because will be lower than starting configuration
 
   //Shuffleboard entries...........................................
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
