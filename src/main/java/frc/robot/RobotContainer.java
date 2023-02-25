@@ -20,8 +20,9 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.blankAuto;
-import frc.robot.autos.exampleAuto;
+import frc.robot.autos.DoNothingAuto;
+import frc.robot.autos.ConeCrossBalanceAuto;
+import frc.robot.autos.DriveForwardAuto;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExtensionSubsystem;
@@ -80,8 +81,9 @@ public class RobotContainer {
   }
   private void configureAutoSelector() {
 
-    autoChooser.setDefaultOption("Empty Auto", new blankAuto(s_Swerve, intakeSubsystem));
-    autoChooser.addOption("Example Auto", new exampleAuto(s_Swerve, intakeSubsystem));
+    autoChooser.setDefaultOption("Cone Cross Balance Auto", new ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.addOption("Do Nothing Auto", new DoNothingAuto());
+    autoChooser.addOption("Drive Forward Auto", new DriveForwardAuto(s_Swerve));
     SmartDashboard.putData("Auto Selector", autoChooser);
 
     // ShuffleboardTab tab = Shuffleboard.getTab("Auto Chooser");
@@ -184,6 +186,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new exampleAuto(s_Swerve, intakeSubsystem);
+    return autoChooser.getSelected();
   }
 }

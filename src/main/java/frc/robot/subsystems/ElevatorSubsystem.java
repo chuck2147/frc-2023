@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,114 +20,149 @@ import frc.robot.Constants;
 import frc.robot.PIDNTValue;
 
 public class ElevatorSubsystem extends SubsystemBase {
-private TalonFX elevatorMotor = new TalonFX(Constants.ELEVATOR_MOTOR_ID);
-private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_MOTOR_ID);
-  
-  private DoubleSolenoid elevatorBreak = new DoubleSolenoid(PneumaticsModuleType.REVPH, 
-  Constants.ELEVATOR_BRAKE_FORWARD, Constants.ELEVATOR_BRAKE_REVERSE);
+  private TalonFX elevatorMotor = new TalonFX(Constants.ELEVATOR_MOTOR_ID);
+  private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_MOTOR_ID);
+
+  private DoubleSolenoid elevatorBreak = new DoubleSolenoid(PneumaticsModuleType.REVPH,
+      Constants.ELEVATOR_BRAKE_FORWARD, Constants.ELEVATOR_BRAKE_REVERSE);
 
   // PID coefficients............................................
-  double kP = 1; 
+  double kP = 1;
   double kI = 0;
-  double kD = 0.001; 
-  double kF = 0; 
+  double kD = 0.001;
+  double kF = 0;
 
-  //PID Setpoint....................................................
-  double l3ElevatorPosition = 74500; //100000
-  double l2ElevatorPosition = 48500; //50000
-  double humanElevatorPosition = 70000; //170518
-  double stowedElevatorPosition = 0; //starting configuration set when robot turned on
-  double intakeElevatorPosition = -14000; //negative because will be lower than starting configuration
+  // PID Setpoint....................................................
+  double l3ElevatorPosition = 74500; // 100000
+  double l2ElevatorPosition = 53500; // 50000
+  double humanElevatorPosition = 70000; // 170518
+  double stowedElevatorPosition = 0; // starting configuration set when robot turned on
+  double intakeElevatorPosition = -14000; // negative because will be lower than starting configuration
+  boolean hasResetEncoder = false;
+  Timer resetEncoderTimer = null;
 
-  //Shuffleboard entries...........................................
+  // Shuffleboard entries...........................................
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
-  // Topic l2ElevatorPositionEntry = tab.add("L2 Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  // Topic l3ElevatorPositionEntry = tab.add("L3 Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  // Topic humanElevatorPositionEntry = tab.add("Human Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  // Topic intakeElevatorPositionEntry = tab.add("Intake Elevator Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-  
-  
+  // Topic l2ElevatorPositionEntry = tab.add("L2 Elevator Position",
+  // 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // Topic l3ElevatorPositionEntry = tab.add("L3 Elevator Position",
+  // 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // Topic humanElevatorPositionEntry = tab.add("Human Elevator Position",
+  // 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+  // Topic intakeElevatorPositionEntry = tab.add("Intake Elevator Position",
+  // 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
+
   public ElevatorSubsystem() {
 
     elevatorMotor.configFactoryDefault();
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
-    elevatorMotor.setInverted(TalonFXInvertType.Clockwise);//check
-    elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);  
-    elevatorMotor.setSensorPhase(true);//check
+    elevatorMotor.setInverted(TalonFXInvertType.Clockwise);// check
+    elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
+    elevatorMotor.setSensorPhase(true);// check
     elevatorMotor.configPeakOutputForward(0.5);
     elevatorMotor.configPeakOutputReverse(-0.5);
 
     /* set up followers */
     elevatorMotorFollower.configFactoryDefault();
     elevatorMotorFollower.setNeutralMode(NeutralMode.Brake);
-    elevatorMotorFollower.setInverted(TalonFXInvertType.CounterClockwise);//check
+    elevatorMotorFollower.setInverted(TalonFXInvertType.CounterClockwise);// check
     elevatorMotorFollower.follow(elevatorMotor);
 
     // set PID coefficients
-    elevatorMotor.config_kP(0, kP, 30); 
-    elevatorMotor.config_kI(0, kI, 30); 
-    elevatorMotor.config_kD(0, kD, 30); 
-    elevatorMotor.config_kF(0, kF, 30); 
+    elevatorMotor.config_kP(0, kP, 30);
+    elevatorMotor.config_kI(0, kI, 30);
+    elevatorMotor.config_kD(0, kD, 30);
+    elevatorMotor.config_kF(0, kF, 30);
 
-    new PIDNTValue(kP, kI, kD, kF, elevatorMotor,"Elevator Motor");
+    new PIDNTValue(kP, kI, kD, kF, elevatorMotor, "Elevator Motor");
   }
- 
-  
 
   public void l3Elevator() {
-    elevatorMotor.set(ControlMode.Position, l3ElevatorPosition);
-    elevatorBreak.set(Value.kForward);
+    if (hasResetEncoder == true) {
+      elevatorMotor.set(ControlMode.Position, l3ElevatorPosition);
+      elevatorBreak.set(Value.kForward);
+    }
   }
 
   public void l2Elevator() {
-    elevatorMotor.set(ControlMode.Position, l2ElevatorPosition);
-    elevatorBreak.set(Value.kForward);
+    if (hasResetEncoder == true) {
+      elevatorMotor.set(ControlMode.Position, l2ElevatorPosition);
+      elevatorBreak.set(Value.kForward);
+    }
   }
 
   public void stowedElevator() {
-    elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
-    elevatorBreak.set(Value.kForward);
+    if (hasResetEncoder == true) {
+      elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
+      elevatorBreak.set(Value.kForward);
+    }
   }
 
   public void intakeElevator() {
-    elevatorMotor.set(ControlMode.Position, intakeElevatorPosition);
-    elevatorBreak.set(Value.kForward);
-  }
-  
-  public void humanElevator() {
-    elevatorMotor.set(ControlMode.Position, humanElevatorPosition);
-    elevatorBreak.set(Value.kForward);
+    if (hasResetEncoder == true) {
+      elevatorMotor.set(ControlMode.Position, intakeElevatorPosition);
+      elevatorBreak.set(Value.kForward);
+    }
   }
 
-    public void upElevatorMotor() {
-      System.out.println("going up!");
+  public void humanElevator() {
+    if (hasResetEncoder == true) {
+      elevatorMotor.set(ControlMode.Position, humanElevatorPosition);
+      elevatorBreak.set(Value.kForward);
+    }
+  }
+
+  public void upElevatorMotor() {
+    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.PercentOutput, .5);
       elevatorBreak.set(Value.kForward);
     }
-  
-    public void downElevatorMotor() {
-      System.out.println("going down...");
+  }
+
+  public void downElevatorMotor() {
+    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.PercentOutput, -0.5);
       elevatorBreak.set(Value.kForward);
     }
-  
-    public void stopElevatorMotor() {
-      elevatorMotor.set(ControlMode.PercentOutput, 0);
-      elevatorBreak.set(Value.kReverse);
   }
 
-    public double getElevatorEncoder() {
-      return elevatorMotor.getSelectedSensorVelocity();
-    }  
-  
-  //Do we need this?
-    public void resetElevatorEncoder() {
-      elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
+  public void stopElevatorMotor() {
+    if (hasResetEncoder == true) {
+      elevatorMotor.set(ControlMode.PercentOutput, 0);
+      elevatorBreak.set(Value.kReverse);
     }
+  }
+
+  public double getElevatorEncoder() {
+    return elevatorMotor.getSelectedSensorVelocity();
+  }
+
+  public void resetElevatorEncoder() {
+    elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    if (!hasResetEncoder) {
+      if (resetEncoderTimer == null) {
+        resetEncoderTimer= new Timer();
+        resetEncoderTimer.restart();
+      }
+
+      if (resetEncoderTimer.get() > 0.1) {
+        hasResetEncoder = true;
+        resetEncoderTimer = null;
+        stopElevatorMotor();
+        resetElevatorEncoder();
+
+      } else {
+        elevatorMotor.set(ControlMode.PercentOutput, -0.005);
+        elevatorBreak.set(Value.kForward);
+
+      }
+    }
 
     SmartDashboard.putNumber("Elevator Encoder", getElevatorEncoder());
 
@@ -135,7 +171,6 @@ private TalonFX elevatorMotorFollower = new TalonFX(Constants.ELEVATOR_FOLLOWER_
     // humanElevatorPositionEntry.genericPublish("double").setDouble(humanElevatorPosition);
     // intakeElevatorPositionEntry.genericPublish("double").setDouble(intakeElevatorPosition);
 
-    
   }
 
   @Override
