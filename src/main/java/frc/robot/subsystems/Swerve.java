@@ -113,6 +113,9 @@ public class Swerve extends SubsystemBase {
         ? Rotation2d.fromDegrees(360 - gyro.getAngle())
         : Rotation2d.fromDegrees(gyro.getAngle());
   }
+  public Rotation2d getPitch() {
+    return Rotation2d.fromDegrees(gyro.getPitch());
+  }
 
   @Override
   public void periodic() {

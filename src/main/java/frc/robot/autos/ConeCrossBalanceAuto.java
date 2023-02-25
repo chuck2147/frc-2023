@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExtensionSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.commands.BalanceCommand;
 import frc.robot.subsystems.Swerve;
 
 public class ConeCrossBalanceAuto extends SequentialCommandGroup {
@@ -33,8 +34,9 @@ public class ConeCrossBalanceAuto extends SequentialCommandGroup {
                     extensionSubsystem.stowedExtension();
                 }),
                 new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(3.2),
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(2.157)
-                    );
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(2.157),
+                new BalanceCommand(s_Swerve)
+        );
         // addCommands(
         // new RunCommand(() -> intakeSubsystem.forwardIntakeMotor()).withTimeout(3),
         // new RunCommand(() -> intakeSubsystem.stopIntakeMotor()).withTimeout(3)//,
