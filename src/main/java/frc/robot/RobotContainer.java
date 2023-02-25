@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.DoNothingAuto;
 import frc.robot.autos.ConeCrossBalanceAuto;
 import frc.robot.autos.DriveForwardAuto;
+import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExtensionSubsystem;
@@ -144,6 +145,7 @@ public class RobotContainer {
           driverB.a().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
           () -> intakeSubsystem.stopIntakeMotor() 
           ));
+          driverB.y().whileTrue(new BalanceCommand(s_Swerve));
 
 
 /* Operator Buttons......................................................................................................... */
