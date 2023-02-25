@@ -56,7 +56,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     elevatorMotor.configFactoryDefault();
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
-    elevatorMotor.setInverted(TalonFXInvertType.Clockwise);// check
+    elevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);//Clockwise for Alpha / CounterClockwise for Comp // subject to change
     elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     elevatorMotor.setSensorPhase(true);// check
     elevatorMotor.configPeakOutputForward(0.5);

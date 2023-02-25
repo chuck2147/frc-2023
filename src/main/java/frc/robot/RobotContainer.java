@@ -145,6 +145,9 @@ public class RobotContainer {
           driverB.a().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
           () -> intakeSubsystem.stopIntakeMotor() 
           ));
+          driverB.x().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+          () -> intakeSubsystem.stopIntakeMotor() 
+          ));
           driverB.y().whileTrue(new BalanceCommand(s_Swerve));
 
 
