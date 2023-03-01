@@ -87,12 +87,6 @@ public class RobotContainer {
     autoChooser.addOption("Drive Forward Auto", new DriveForwardAuto(s_Swerve));
     SmartDashboard.putData("Auto Selector", autoChooser);
 
-    // ShuffleboardTab tab = Shuffleboard.getTab("Auto Chooser");
-    // Topic autoChooserEntry = tab.add("AutoChooser", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
-    // autoChooserEntry.genericPublish("double").setDouble(autoChooser);
-
-    
-
   }
 
 

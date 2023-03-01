@@ -33,11 +33,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   double kF = 0;
 
   // PID Setpoint....................................................
-  double l3ElevatorPosition = 74500; // 100000
-  double l2ElevatorPosition = 53500; // 50000
-  double humanElevatorPosition = 70000; // 170518
+  double l3ElevatorPosition = 115000; // 100000
+  double l2ElevatorPosition = 87000; // 50000
+  double humanElevatorPosition = 103000; // 170518
   double stowedElevatorPosition = 0; // starting configuration set when robot turned on
-  double intakeElevatorPosition = -14000; // negative because will be lower than starting configuration
+  double intakeElevatorPosition = -27700; // negative because will be lower than starting configuration
   boolean hasResetEncoder = false;
   Timer resetEncoderTimer = null;
 
@@ -59,8 +59,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);//Clockwise for Alpha / CounterClockwise for Comp // subject to change
     elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     elevatorMotor.setSensorPhase(true);// check
-    elevatorMotor.configPeakOutputForward(0.5);
-    elevatorMotor.configPeakOutputReverse(-0.5);
+    elevatorMotor.configPeakOutputForward(1);
+    elevatorMotor.configPeakOutputReverse(-0.92);
 
     /* set up followers */
     elevatorMotorFollower.configFactoryDefault();
@@ -114,14 +114,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void upElevatorMotor() {
     if (hasResetEncoder == true) {
-      elevatorMotor.set(ControlMode.PercentOutput, .5);
+      elevatorMotor.set(ControlMode.PercentOutput, 1);
       elevatorBreak.set(Value.kForward);
     }
   }
 
   public void downElevatorMotor() {
     if (hasResetEncoder == true) {
-      elevatorMotor.set(ControlMode.PercentOutput, -0.5);
+      elevatorMotor.set(ControlMode.PercentOutput, -0.92);
       elevatorBreak.set(Value.kForward);
     }
   }
@@ -134,7 +134,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public double getElevatorEncoder() {
-    return elevatorMotor.getSelectedSensorVelocity();
+    return elevatorMotor.getSelectedSensorVelocity(); //getSelectedSensorPosition should be right...
   }
 
   public void resetElevatorEncoder() {

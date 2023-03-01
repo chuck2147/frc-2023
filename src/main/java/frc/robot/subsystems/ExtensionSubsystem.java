@@ -30,9 +30,9 @@ public class ExtensionSubsystem extends SubsystemBase {
 
 //PID Setpoint....................................................
   double l3Extension = 19.7; //3.786
-  double l2Extension = 15.7; //2.976
-  double humanExtension = 7; //1.6
-  double intakeExtension = 7; //1.6
+  double l2Extension = 12.3; //2.976
+  double humanExtension = 9.5; //1.6
+  double intakeExtension = 9.5; 
   double stowedExtension = 0;
   
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues Extension");
@@ -78,11 +78,11 @@ public void l2Extension () {
   }
 
 public void intakeExtension () {
-   extension_pidController.setReference(l2Extension, CANSparkMax.ControlType.kPosition);
+   extension_pidController.setReference(intakeExtension, CANSparkMax.ControlType.kPosition);
    }
 
 public void humanExtension () {
-   extension_pidController.setReference(l2Extension, CANSparkMax.ControlType.kPosition);
+   extension_pidController.setReference(humanExtension, CANSparkMax.ControlType.kPosition);
    }
 
 public void stowedExtension () {
@@ -94,11 +94,11 @@ public void resetEncoder() {
   }
 
   public void forwardExtensionMotor() {
-    extensionMotor.set(0.6);
+    extensionMotor.set(0.7);
   }
 
   public void reverseExtensionMotor() {
-    extensionMotor.set(-0.4);
+    extensionMotor.set(-0.27);
   }
 
   public void stopExtensionMotor() {
