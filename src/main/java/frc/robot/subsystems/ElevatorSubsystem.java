@@ -33,12 +33,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   double kF = 0;
 
   // PID Setpoint....................................................
-  double l3ElevatorPosition = 115000; // 100000
-  double l2ElevatorPosition = 87000; // 50000
-  double humanElevatorPosition = 103000; // 170518
+  double l3ElevatorPosition = 135000; // 153000
+  double l2ElevatorPosition = 87000; // 87000
+  double humanElevatorPosition = 110000; // 170518
   double stowedElevatorPosition = 0; // starting configuration set when robot turned on
   double intakeElevatorPosition = -27700; // negative because will be lower than starting configuration
-  boolean hasResetEncoder = false;
+  boolean hasResetEncoder = false; 
   Timer resetEncoderTimer = null;
 
   // Shuffleboard entries...........................................
@@ -158,7 +158,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         resetElevatorEncoder();
 
       } else {
-        elevatorMotor.set(ControlMode.PercentOutput, -0.005);
+        elevatorMotor.set(ControlMode.PercentOutput, 0.000);
         elevatorBreak.set(Value.kForward);
 
       }

@@ -29,6 +29,8 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExtensionSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Swerve;
+import edu.wpi.first.cameraserver.CameraServer;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -78,6 +80,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     configureAutoSelector();
+    CameraServer.startAutomaticCapture();
 
   }
   private void configureAutoSelector() {
@@ -184,7 +187,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return autoChooser.getSelected();
+    // An ExampleCommand will run in autonomous
+    // return new ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem);
   }
 }
