@@ -32,7 +32,7 @@ public class ExtensionSubsystem extends SubsystemBase {
   double l3Extension = 19.7; //3.786
   double l2Extension = 12.3; //2.976
   double humanExtension = 9.5; //1.6
-  double intakeExtension = 9.5; 
+  double intakeExtension = 9.5; //9.5
   double stowedExtension = 0;
   
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues Extension");
