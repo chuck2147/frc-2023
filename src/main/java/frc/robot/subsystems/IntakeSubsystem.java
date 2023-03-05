@@ -11,7 +11,7 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public IntakeSubsystem() {
         intakeMotor.restoreFactoryDefaults();
-        intakeMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        intakeMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         intakeMotor.setInverted(false); 
 
     }
