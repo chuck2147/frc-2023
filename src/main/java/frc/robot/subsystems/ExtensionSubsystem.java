@@ -25,15 +25,15 @@ public class ExtensionSubsystem extends SubsystemBase {
   double kF = 0; 
   double kIz = 0; 
   double kFF = 0; 
-  double kMaxOutput = 0.7; 
+  double kMaxOutput = 0.5; 
   double kMinOutput = -0.27;
 
 //PID Setpoint....................................................
-  double l3Extension = 19.7; //3.786
-  double l2Extension = 12.3; //2.976
+  double l3Extension = 19; //17
+  double l2Extension = 10.6; //12.976
   double humanExtension = 9.5; //1.6
   double intakeExtension = 9.5; //9.5
-  double stowedExtension = 0;
+  double stowedExtension = 2; //0
   
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues Extension");
   // Topic l2ExtensionPositionEntry = tab.add("L2 Extension Position", 0).withSize(2, 1).withWidget(BuiltInWidgets.kTextView).getEntry().getTopic();
@@ -98,7 +98,7 @@ public void resetEncoder() {
   }
 
   public void reverseExtensionMotor() {
-    extensionMotor.set(-0.27);
+    extensionMotor.set(-0.31);
   }
 
   public void stopExtensionMotor() {

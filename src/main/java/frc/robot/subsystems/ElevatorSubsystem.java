@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,13 +32,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   double kF = 0;
 
   // PID Setpoint....................................................
-  double l3ElevatorPosition = 135000; // 153000
+  double l3ElevatorPosition = 153000; // 135000
   double l2ElevatorPosition = 87000; // 87000
   double humanElevatorPosition = 110000; // 170518
-  double stowedElevatorPosition = 0; // starting configuration set when robot turned on
-  double intakeElevatorPosition = -27700; // negative because will be lower than starting configuration
-  boolean hasResetEncoder = false; 
-  Timer resetEncoderTimer = null;
+  double stowedElevatorPosition = 9000; // starting configuration set when robot turned on
+  double intakeElevatorPosition = -32700; // negative because will be lower than starting configuration
 
   // Shuffleboard entries...........................................
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
@@ -78,59 +75,43 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void l3Elevator() {
-    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.Position, l3ElevatorPosition);
       elevatorBreak.set(Value.kForward);
-    }
   }
 
   public void l2Elevator() {
-    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.Position, l2ElevatorPosition);
       elevatorBreak.set(Value.kForward);
-    }
   }
 
   public void stowedElevator() {
-    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
       elevatorBreak.set(Value.kForward);
-    }
   }
 
   public void intakeElevator() {
-    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.Position, intakeElevatorPosition);
       elevatorBreak.set(Value.kForward);
-    }
   }
 
   public void humanElevator() {
-    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.Position, humanElevatorPosition);
       elevatorBreak.set(Value.kForward);
-    }
   }
 
   public void upElevatorMotor() {
-    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.PercentOutput, 1);
       elevatorBreak.set(Value.kForward);
-    }
   }
 
   public void downElevatorMotor() {
-    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.PercentOutput, -0.92);
       elevatorBreak.set(Value.kForward);
-    }
   }
 
   public void stopElevatorMotor() {
-    if (hasResetEncoder == true) {
       elevatorMotor.set(ControlMode.PercentOutput, 0);
       elevatorBreak.set(Value.kReverse);
-    }
   }
 
   public double getElevatorEncoder() {
@@ -145,24 +126,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    if (!hasResetEncoder) {
-      if (resetEncoderTimer == null) {
-        resetEncoderTimer= new Timer();
-        resetEncoderTimer.restart();
-      }
-
-      if (resetEncoderTimer.get() > 0.1) {
-        hasResetEncoder = true;
-        resetEncoderTimer = null;
-        stopElevatorMotor();
-        resetElevatorEncoder();
-
-      } else {
-        elevatorMotor.set(ControlMode.PercentOutput, 0.000);
-        elevatorBreak.set(Value.kForward);
-
-      }
-    }
+ 
 
     SmartDashboard.putNumber("Elevator Encoder", getElevatorEncoder());
 
