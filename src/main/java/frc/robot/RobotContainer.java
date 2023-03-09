@@ -151,9 +151,12 @@ public class RobotContainer {
 /* Operator Buttons......................................................................................................... */
     
     /*Positions Elevator/Extension*/
-    operator.a().onTrue(new InstantCommand(() -> {elevatorSubsystem.l2Elevator(); extensionSubsystem.l2Extension(); }));
-    operator.y().onTrue(new InstantCommand(() -> {elevatorSubsystem.l3Elevator(); extensionSubsystem.l3Extension(); }));
-   
+    operator.a().whileTrue(new InstantCommand(() -> {elevatorSubsystem.l2Elevator(); extensionSubsystem.l2Extension(); }));
+
+    operator.y().whileTrue(new InstantCommand(() -> {elevatorSubsystem.l3Elevator(); extensionSubsystem.l3Extension(); }));
+    
+    operator.x().onTrue(new InstantCommand(() -> {elevatorSubsystem.stowedElevator(); extensionSubsystem.stowedExtension(); }));
+
     /*Positions Human Station*/
     operator.b().whileTrue(new InstantCommand(() -> {
         extensionSubsystem.humanExtension();

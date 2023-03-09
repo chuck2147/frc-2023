@@ -26,9 +26,9 @@ public class ElevatorSubsystem extends SubsystemBase {
       Constants.ELEVATOR_BRAKE_FORWARD, Constants.ELEVATOR_BRAKE_REVERSE);
 
   // PID coefficients............................................
-  double kP = 1;
+  double kP = .2;
   double kI = 0;
-  double kD = 0.001;
+  double kD = 0.00;
   double kF = 0;
 
   // PID Setpoint....................................................
@@ -57,7 +57,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     elevatorMotor.setSensorPhase(true);// check
     elevatorMotor.configPeakOutputForward(1);
-    elevatorMotor.configPeakOutputReverse(-0.92);
+    elevatorMotor.configPeakOutputReverse(-0.75);
 
     /* set up followers */
     elevatorMotorFollower.configFactoryDefault();
