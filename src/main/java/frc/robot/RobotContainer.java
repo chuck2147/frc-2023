@@ -21,8 +21,12 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.DoNothingAuto;
-import frc.robot.autos.ConeCrossBalanceAuto;
 import frc.robot.autos.DriveForwardAuto;
+import frc.robot.autos.L2ConeCrossAuto;
+import frc.robot.autos.L2ConeCrossBalanceAuto;
+import frc.robot.autos.L2ConeCrossIntakeBalanceAuto;
+import frc.robot.autos.L3ConeCrossAuto;
+import frc.robot.autos.L3ConeCrossBalanceAuto;
 import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -85,9 +89,14 @@ public class RobotContainer {
   }
   private void configureAutoSelector() {
 
-    autoChooser.setDefaultOption("Cone Cross Balance Auto", new ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+
     autoChooser.addOption("Do Nothing Auto", new DoNothingAuto());
     autoChooser.addOption("Drive Forward Auto", new DriveForwardAuto(s_Swerve));
+    autoChooser.addOption("L2 Cone Cross Auto", new L2ConeCrossAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.addOption("L3 Cone Cross Auto", new L3ConeCrossAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.setDefaultOption("L2 Cone Cross Balance Auto", new L2ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.addOption("L3 Cone Cross Balance Auto", new L3ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.addOption("L2 Cone Cross Intake Balance Auto", new L2ConeCrossIntakeBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     SmartDashboard.putData("Auto Selector", autoChooser);
 
   }
