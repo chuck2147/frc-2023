@@ -160,11 +160,43 @@ public class RobotContainer {
 /* Operator Buttons......................................................................................................... */
     
     /*Positions Elevator/Extension*/
-    operator.a().whileTrue(new InstantCommand(() -> {elevatorSubsystem.l2Elevator(); extensionSubsystem.l2Extension(); }));
-
-    operator.y().whileTrue(new InstantCommand(() -> {elevatorSubsystem.l3Elevator(); extensionSubsystem.l3Extension(); }));
     
-    operator.x().onTrue(new InstantCommand(() -> {elevatorSubsystem.stowedElevator(); extensionSubsystem.stowedExtension(); }));
+    //operator.a().whileTrue(new InstantCommand(() -> {elevatorSubsystem.l2Elevator(); extensionSubsystem.l2Extension(); })).withTimeout(3);
+
+    operator.a()
+    .whileTrue(new SequentialCommandGroup(new InstantCommand(() -> {
+     elevatorSubsystem.l2Elevator();
+     extensionSubsystem.l2Extension();
+    }),
+     new WaitCommand(2.0),
+     new InstantCommand(() -> {                    
+     elevatorSubsystem.stopElevatorMotor();
+     })));
+
+    // operator.y().whileTrue(new InstantCommand(() -> {elevatorSubsystem.l3Elevator(); extensionSubsystem.l3Extension(); }));
+    
+    operator.y()
+    .whileTrue(new SequentialCommandGroup(new InstantCommand(() -> {
+     elevatorSubsystem.l3Elevator();
+     extensionSubsystem.l3Extension();
+    }),
+     new WaitCommand(2.0),
+     new InstantCommand(() -> {                    
+     elevatorSubsystem.stopElevatorMotor();
+     })));
+
+    // operator.x().onTrue(new InstantCommand(() -> {elevatorSubsystem.stowedElevator(); extensionSubsystem.stowedExtension(); }));
+    
+    operator.x()
+    .whileTrue(new SequentialCommandGroup(new InstantCommand(() -> {
+     elevatorSubsystem.stowedElevator();
+     extensionSubsystem.stowedExtension();
+    }),
+     new WaitCommand(2.0),
+     new InstantCommand(() -> {                    
+     elevatorSubsystem.stopElevatorMotor();
+     })));
+
 
     /*Positions Human Station*/
     operator.b().whileTrue(new InstantCommand(() -> {
