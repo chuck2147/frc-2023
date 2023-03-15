@@ -31,7 +31,7 @@ public class ExtensionSubsystem extends SubsystemBase {
   double kIz = 0; 
   double kFF = 0; 
   double kMaxOutput = 0.5; 
-  double kMinOutput = -0.27;
+  double kMinOutput = -0.47;
 
 //PID Setpoint....................................................
   double l3Extension = 19; //17

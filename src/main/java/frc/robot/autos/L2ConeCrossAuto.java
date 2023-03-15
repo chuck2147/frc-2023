@@ -32,7 +32,7 @@ public class L2ConeCrossAuto extends SequentialCommandGroup {
                     elevatorSubsystem.stowedElevator();
                     extensionSubsystem.stowedExtension();
                 }),
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(3.2)
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(2.5)
                 //new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(2.157),
                 
         );

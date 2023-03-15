@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.PIDNTValue;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private TalonFX elevatorMotor = new TalonFX(Constants.ELEVATOR_MOTOR_ID);
@@ -27,17 +26,17 @@ public class ElevatorSubsystem extends SubsystemBase {
       
 
   // PID coefficients............................................
-  double kP = .2;
+  double kP = 0.5;
   double kI = 0;
-  double kD = 0.00;
+  double kD = 0.01;
   double kF = 0;
 
   // PID Setpoint....................................................
-  double l3ElevatorPosition = 153000; // 135000
+  double l3ElevatorPosition = 144044; // 153000 
   double l2ElevatorPosition = 87000; // 87000
-  double humanElevatorPosition = 110000; // 170518
+  double humanElevatorPosition = 107800; // 110000
   double stowedElevatorPosition = 9000; // starting configuration set when robot turned on
-  double intakeElevatorPosition = -32700; // negative because will be lower than starting configuration
+  double intakeElevatorPosition = -26500; // negative because will be lower than starting configuration
 
   // Shuffleboard entries...........................................
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
@@ -63,7 +62,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     /* set up followers */
     elevatorMotorFollower.configFactoryDefault();
     elevatorMotorFollower.setNeutralMode(NeutralMode.Brake);
-    elevatorMotorFollower.setInverted(TalonFXInvertType.CounterClockwise);// check
+    elevatorMotorFollower.setInverted(TalonFXInvertType.Clockwise);// check
     elevatorMotorFollower.follow(elevatorMotor);
 
     // set PID coefficients
@@ -72,7 +71,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorMotor.config_kD(0, kD, 30);
     elevatorMotor.config_kF(0, kF, 30);
 
-    new PIDNTValue(kP, kI, kD, kF, elevatorMotor, "Elevator Motor");
+    // new PIDNTValue(kP, kI, kD, kF, elevatorMotor, "Elevator Motor");
   }
 
   public void l3Elevator() {
@@ -101,12 +100,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void upElevatorMotor() {
-      elevatorMotor.set(ControlMode.PercentOutput, 1);
+      elevatorMotor.set(ControlMode.PercentOutput, 1); //1
       elevatorBreak.set(Value.kForward);
   }
 
   public void downElevatorMotor() {
-      elevatorMotor.set(ControlMode.PercentOutput, -0.92);
+      elevatorMotor.set(ControlMode.PercentOutput, -.92); //-0.92
       elevatorBreak.set(Value.kForward);
   }
 
@@ -116,7 +115,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public double getElevatorEncoder() {
-    return elevatorMotor.getSelectedSensorVelocity(); //getSelectedSensorPosition should be right...
+    return elevatorMotor.getSelectedSensorPosition();
   }
 
   public void resetElevatorEncoder() {
