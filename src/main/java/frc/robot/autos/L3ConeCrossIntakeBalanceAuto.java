@@ -12,9 +12,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.BalanceCommand;
 import frc.robot.subsystems.Swerve;
 
-public class L2ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
+public class L3ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
 
-    public L2ConeCrossIntakeBalanceAuto(Swerve s_Swerve, IntakeSubsystem intakeSubsystem, ElevatorSubsystem elevatorSubsystem,
+    public L3ConeCrossIntakeBalanceAuto(Swerve s_Swerve, IntakeSubsystem intakeSubsystem, ElevatorSubsystem elevatorSubsystem,
             ExtensionSubsystem extensionSubsystem) {
         addRequirements(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem);
 
@@ -22,10 +22,10 @@ public class L2ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                 new InstantCommand(() -> s_Swerve.setGyro(180)),
                 Commands.parallel(
                         new RunCommand(() -> {
-                            elevatorSubsystem.l2Elevator();
+                            elevatorSubsystem.l3Elevator();
                         }).withTimeout(1.5),
                         new WaitCommand(0.6).andThen(new RunCommand(() -> {
-                            extensionSubsystem.l2Extension();
+                            extensionSubsystem.l3Extension();
                         }).withTimeout(1.5))),
                 new RunCommand(() -> intakeSubsystem.reverseIntakeMotor()).withTimeout(0.5),
                 new InstantCommand(() -> {
@@ -35,7 +35,7 @@ public class L2ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                 }),
                 new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(2),
 
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 180, true, true)).withTimeout(1.2),
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 1, true, true)).withTimeout(1.2),
 
                 Commands.parallel(
                     new RunCommand(() -> {
@@ -54,7 +54,7 @@ public class L2ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                     }).withTimeout(1),
                     new WaitCommand(0.5).andThen(new RunCommand(() -> {
                         extensionSubsystem.stowedExtension();
-                        s_Swerve.drive(new Translation2d(-1.7, 0), 180, true, true);
+                        s_Swerve.drive(new Translation2d(-1.7, 0), 1, true, true);
                     }).withTimeout(1.5099))),
     
                 new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(0.6471),

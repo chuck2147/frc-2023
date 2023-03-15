@@ -24,7 +24,7 @@ import frc.robot.autos.DoNothingAuto;
 import frc.robot.autos.DriveForwardAuto;
 import frc.robot.autos.L2ConeCrossAuto;
 import frc.robot.autos.L2ConeCrossBalanceAuto;
-import frc.robot.autos.L2ConeCrossIntakeBalanceAuto;
+import frc.robot.autos.L3ConeCrossIntakeBalanceAuto;
 import frc.robot.autos.L3ConeCrossAuto;
 import frc.robot.autos.L3ConeCrossBalanceAuto;
 import frc.robot.commands.BalanceCommand;
@@ -96,7 +96,7 @@ public class RobotContainer {
     autoChooser.addOption("L3 Cone Cross Auto", new L3ConeCrossAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     autoChooser.setDefaultOption("L2 Cone Cross Balance Auto", new L2ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     autoChooser.addOption("L3 Cone Cross Balance Auto", new L3ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
-    autoChooser.addOption("L2 Cone Cross Intake Balance Auto", new L2ConeCrossIntakeBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.addOption("L3 Cone Cross Intake Balance Auto", new L3ConeCrossIntakeBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     SmartDashboard.putData("Auto Selector", autoChooser);
 
   }
@@ -133,7 +133,11 @@ public class RobotContainer {
         new WaitCommand(1.0),
         new InstantCommand(() ->
         extensionSubsystem.stowedExtension()
-        )));
+        ),
+        new WaitCommand(0.1),
+        new InstantCommand(() -> {                    
+        elevatorSubsystem.stopElevatorMotor();
+        })));
 
   
     /*SCORE */ 
@@ -145,6 +149,10 @@ public class RobotContainer {
         intakeSubsystem.stopIntakeMotor(); 
         extensionSubsystem.stowedExtension();
         elevatorSubsystem.stowedElevator();
+        }),
+        new WaitCommand(1.5),
+        new InstantCommand(() -> {                    
+        elevatorSubsystem.stopElevatorMotor();
         })));
 
 //manual test of intake motor...remove when issue solved
@@ -188,11 +196,12 @@ public class RobotContainer {
     // operator.x().onTrue(new InstantCommand(() -> {elevatorSubsystem.stowedElevator(); extensionSubsystem.stowedExtension(); }));
     
     operator.x()
-    .whileTrue(new SequentialCommandGroup(new InstantCommand(() -> {
+    .onTrue(new SequentialCommandGroup(new InstantCommand(() -> {
      elevatorSubsystem.stowedElevator();
      extensionSubsystem.stowedExtension();
     }),
-     new WaitCommand(2.0),
+     
+    new WaitCommand(1.5),
      new InstantCommand(() -> {                    
      elevatorSubsystem.stopElevatorMotor();
      })));

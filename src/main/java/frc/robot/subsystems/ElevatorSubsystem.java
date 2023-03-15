@@ -31,9 +31,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   double kF = 0;
 
   // PID Setpoint....................................................
-  double l3ElevatorPosition = 159600; // 153000 
+  double l3ElevatorPosition = 144044; // 153000 
   double l2ElevatorPosition = 87000; // 87000
-  double humanElevatorPosition = 110000; // 170518
+  double humanElevatorPosition = 107800; // 110000
   double stowedElevatorPosition = 9000; // starting configuration set when robot turned on
   double intakeElevatorPosition = -26500; // negative because will be lower than starting configuration
 
@@ -99,12 +99,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void upElevatorMotor() {
-      elevatorMotor.set(ControlMode.PercentOutput, 0.1); //1
+      elevatorMotor.set(ControlMode.PercentOutput, 1); //1
       elevatorBreak.set(Value.kForward);
   }
 
   public void downElevatorMotor() {
-      elevatorMotor.set(ControlMode.PercentOutput, -0.1); //-0.92
+      elevatorMotor.set(ControlMode.PercentOutput, -.92); //-0.92
       elevatorBreak.set(Value.kForward);
   }
 
