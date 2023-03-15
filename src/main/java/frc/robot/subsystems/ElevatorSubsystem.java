@@ -24,6 +24,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private DoubleSolenoid elevatorBreak = new DoubleSolenoid(PneumaticsModuleType.REVPH,
       Constants.ELEVATOR_BRAKE_FORWARD, Constants.ELEVATOR_BRAKE_REVERSE);
+      
 
   // PID coefficients............................................
   double kP = .2;

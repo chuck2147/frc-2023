@@ -9,6 +9,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+//import edu.wpi.first.wpilibj.PneumaticsModuleType;
+//import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,6 +19,9 @@ public class ExtensionSubsystem extends SubsystemBase {
   private CANSparkMax extensionMotor = new CANSparkMax(Constants.EXTENSION_MOTOR_ID, MotorType.kBrushless);
   private RelativeEncoder extension_encoder;
   private SparkMaxPIDController extension_pidController;
+
+  //private Solenoid extensionBreak = new Solenoid(PneumaticsModuleType.REVPH,
+    //Constants.EXTENSION_BRAKE_FORWARD);
 
 // PID coefficients............................................
   double kP = 0.2; 
@@ -69,8 +74,12 @@ public class ExtensionSubsystem extends SubsystemBase {
 
   }
 
+/**
+ * 
+ */
 public void l3Extension () {
   extension_pidController.setReference(l3Extension, CANSparkMax.ControlType.kPosition);
+ // extensionBreak.setReference(l3Extension, CANSparkMax.ControlType.kPosition);
   }
 
 public void l2Extension () {

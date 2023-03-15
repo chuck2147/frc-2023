@@ -169,6 +169,8 @@ public final class Constants {
   
   public final static int EXTENSION_BREAK_BACKWARD = 2;
   public final static int EXTENSION_BREAK_FORWARD = 3;
+public static final int EXTENSION_BRAKE_FORWARD = 0;
+public static final String EXTENSION_BRAKE_REVERSE = null;
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 4; //3
