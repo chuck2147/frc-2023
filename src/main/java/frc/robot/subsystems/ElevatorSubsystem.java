@@ -119,7 +119,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void resetElevatorEncoder() {
-    elevatorMotor.set(ControlMode.Position, stowedElevatorPosition);
+    elevatorMotor.set(ControlMode.Position, 0);
   }
 
   @Override

@@ -24,7 +24,7 @@ public class L3ConeCrossBalanceAuto extends SequentialCommandGroup {
                         new RunCommand(() -> {
                             elevatorSubsystem.l3Elevator();
                         }).withTimeout(1.5),
-                        new WaitCommand(0.9).andThen(new RunCommand(() -> { //adjust wait time
+                        new WaitCommand(0.9).andThen(new RunCommand(() -> {
                             extensionSubsystem.l3Extension();
                         }).withTimeout(1.5))),
                 new RunCommand(() -> intakeSubsystem.reverseIntakeMotor()).withTimeout(0.5),

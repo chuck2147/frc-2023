@@ -166,11 +166,9 @@ public final class Constants {
  //Pneumatics
   public final static int ELEVATOR_BRAKE_FORWARD = 0; 
   public final static int ELEVATOR_BRAKE_REVERSE = 1;
-  
-  public final static int EXTENSION_BREAK_BACKWARD = 2;
-  public final static int EXTENSION_BREAK_FORWARD = 3;
-public static final int EXTENSION_BRAKE_FORWARD = 0;
-public static final String EXTENSION_BRAKE_REVERSE = null;
+  // public final static int EXTENSION_BREAK_BACKWARD = 2;
+  // public static final int EXTENSION_BRAKE_FORWARD = 3;
+  public static final int EXTENSION_BRAKE_ON = 3;
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 4; //3

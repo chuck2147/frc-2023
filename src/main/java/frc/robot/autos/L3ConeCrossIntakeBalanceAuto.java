@@ -19,7 +19,7 @@ public class L3ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
         addRequirements(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem);
 
         addCommands(
-                new InstantCommand(() -> s_Swerve.setGyro(180)), //180
+                new InstantCommand(() -> s_Swerve.setGyro(180)), 
                 Commands.parallel(
                         new RunCommand(() -> {
                             elevatorSubsystem.l3Elevator();

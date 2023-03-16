@@ -89,14 +89,14 @@ public class RobotContainer {
   }
   private void configureAutoSelector() {
 
-
     autoChooser.addOption("Do Nothing Auto", new DoNothingAuto());
     autoChooser.addOption("Drive Forward Auto", new DriveForwardAuto(s_Swerve));
     autoChooser.addOption("L2 Cone Cross Auto", new L2ConeCrossAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     autoChooser.addOption("L3 Cone Cross Auto", new L3ConeCrossAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
-    autoChooser.setDefaultOption("L2 Cone Cross Balance Auto", new L2ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
-    autoChooser.addOption("L3 Cone Cross Balance Auto", new L3ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.addOption("L2 Cone Cross Balance Auto", new L2ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.setDefaultOption("L3 Cone Cross Balance Auto", new L3ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     autoChooser.addOption("L3 Cone Cross Intake Balance Auto", new L3ConeCrossIntakeBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    
     SmartDashboard.putData("Auto Selector", autoChooser);
 
   }
@@ -112,7 +112,10 @@ public class RobotContainer {
      
 /* Driver Buttons.......................................................................................................... */
     driverB.start().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-
+    
+    driverB.back().onTrue(new InstantCommand(() -> {
+      elevatorSubsystem.resetElevatorEncoder(); 
+      extensionSubsystem.resetExtensionEncoder(); }));
 
 
    
@@ -137,6 +140,10 @@ public class RobotContainer {
         new WaitCommand(0.1),
         new InstantCommand(() -> {                    
         elevatorSubsystem.stopElevatorMotor();
+        }),
+        new WaitCommand(0.7),
+        new InstantCommand(() -> {                    
+        extensionSubsystem.stopExtensionMotor();
         })));
 
   
@@ -153,16 +160,17 @@ public class RobotContainer {
         new WaitCommand(1.5),
         new InstantCommand(() -> {                    
         elevatorSubsystem.stopElevatorMotor();
+        extensionSubsystem.stopExtensionMotor();
         })));
 
-//manual test of intake motor...remove when issue solved
-          driverB.a().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
-          () -> intakeSubsystem.stopIntakeMotor() 
-          ));
-          driverB.x().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
-          () -> intakeSubsystem.stopIntakeMotor() 
-          ));
-          driverB.y().whileTrue(new BalanceCommand(s_Swerve));
+      
+      driverB.a().whileTrue(new StartEndCommand(() -> intakeSubsystem.reverseIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor() 
+      ));
+      driverB.x().whileTrue(new StartEndCommand(() -> intakeSubsystem.forwardIntakeMotor(),
+      () -> intakeSubsystem.stopIntakeMotor() 
+      ));
+      driverB.y().whileTrue(new BalanceCommand(s_Swerve));
 
 
 /* Operator Buttons......................................................................................................... */
@@ -170,40 +178,41 @@ public class RobotContainer {
     /*Positions Elevator/Extension*/
     
     //operator.a().whileTrue(new InstantCommand(() -> {elevatorSubsystem.l2Elevator(); extensionSubsystem.l2Extension(); })).withTimeout(3);
-
     operator.a()
     .whileTrue(new SequentialCommandGroup(new InstantCommand(() -> {
      elevatorSubsystem.l2Elevator();
      extensionSubsystem.l2Extension();
     }),
-     new WaitCommand(2.0),
+     new WaitCommand(1.3),
      new InstantCommand(() -> {                    
-     elevatorSubsystem.stopElevatorMotor();
+       elevatorSubsystem.stopElevatorMotor();
+      //  extensionSubsystem.stopExtensionMotor();  --DO WE NEED THIS!?
      })));
 
+
     // operator.y().whileTrue(new InstantCommand(() -> {elevatorSubsystem.l3Elevator(); extensionSubsystem.l3Extension(); }));
-    
-    operator.y()
+        operator.y()
     .whileTrue(new SequentialCommandGroup(new InstantCommand(() -> {
      elevatorSubsystem.l3Elevator();
      extensionSubsystem.l3Extension();
     }),
-     new WaitCommand(2.0),
+     new WaitCommand(1.7),
      new InstantCommand(() -> {                    
-     elevatorSubsystem.stopElevatorMotor();
+      elevatorSubsystem.stopElevatorMotor();
+       //  extensionSubsystem.stopExtensionMotor();  --DO WE NEED THIS!?
      })));
 
+
     // operator.x().onTrue(new InstantCommand(() -> {elevatorSubsystem.stowedElevator(); extensionSubsystem.stowedExtension(); }));
-    
-    operator.x()
+        operator.x()
     .onTrue(new SequentialCommandGroup(new InstantCommand(() -> {
      elevatorSubsystem.stowedElevator();
      extensionSubsystem.stowedExtension();
-    }),
-     
-    new WaitCommand(1.5),
-     new InstantCommand(() -> {                    
-     elevatorSubsystem.stopElevatorMotor();
+    }),     
+      new WaitCommand(1.5),
+      new InstantCommand(() -> {                    
+      elevatorSubsystem.stopElevatorMotor();
+      extensionSubsystem.stopExtensionMotor();
      })));
 
 
@@ -213,11 +222,19 @@ public class RobotContainer {
         elevatorSubsystem.humanElevator();
         intakeSubsystem.forwardIntakeMotor();
           }));
-    operator.b().whileFalse(new InstantCommand(() -> {
+    operator.b().whileFalse(new SequentialCommandGroup(new InstantCommand(() -> {
         extensionSubsystem.stowedExtension();
-        elevatorSubsystem.stowedElevator();
         intakeSubsystem.stopIntakeMotor();
-          }));
+          }), 
+          new WaitCommand(0.1),
+          new InstantCommand(() -> {                    
+          elevatorSubsystem.stowedElevator();
+          }),
+          new WaitCommand(1.3),
+          new InstantCommand(() -> {                    
+            elevatorSubsystem.stopElevatorMotor();
+            extensionSubsystem.stopExtensionMotor();
+          })));
 
     /*Manual Elevator and Extension */
     operator.povDown().whileTrue(new StartEndCommand(() -> elevatorSubsystem.downElevatorMotor(),
@@ -228,8 +245,6 @@ public class RobotContainer {
       () -> extensionSubsystem.stopExtensionMotor() ));
     operator.povRight().whileTrue(new StartEndCommand(() -> extensionSubsystem.reverseExtensionMotor(),
       () -> extensionSubsystem.stopExtensionMotor() ));
-
-
 
   }  
 
