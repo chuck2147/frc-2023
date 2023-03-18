@@ -83,7 +83,6 @@ public class ExtensionSubsystem extends SubsystemBase {
    */
   public void l3Extension() {
     extension_pidController.setReference(l3Extension, CANSparkMax.ControlType.kPosition);
-    // extensionBreak.setReference(l3Extension, CANSparkMax.ControlType.kPosition);
     extensionBreak.set(false);
   }
 

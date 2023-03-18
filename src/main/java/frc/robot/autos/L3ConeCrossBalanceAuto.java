@@ -33,8 +33,8 @@ public class L3ConeCrossBalanceAuto extends SequentialCommandGroup {
                     elevatorSubsystem.stowedElevator();
                     extensionSubsystem.stowedExtension();
                 }),
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(3.2),
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(2.157),
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(3.2), // (x:1.7, y:0) (seconds: 3.2)
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(2.157), // (x:-1.7, y:0) (seconds: (seconds: 2.157))
                 new BalanceCommand(s_Swerve)
         );
         // addCommands(
