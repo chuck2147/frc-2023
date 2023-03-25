@@ -112,11 +112,11 @@ public class RobotContainer {
      
 /* Driver Buttons.......................................................................................................... */
     driverB.start().onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    
+    /*
     driverB.back().onTrue(new InstantCommand(() -> {
       elevatorSubsystem.resetElevatorEncoder(); 
       extensionSubsystem.resetExtensionEncoder(); }));
-
+*/
 
    
     /*Intaking GamePiece */
@@ -151,7 +151,7 @@ public class RobotContainer {
       driverB.rightTrigger()
        .onTrue(new SequentialCommandGroup(new InstantCommand(() -> 
         intakeSubsystem.reverseIntakeMotor()),
-        new WaitCommand(1.0),
+        new WaitCommand(0.7),
         new InstantCommand(() -> {                    
         intakeSubsystem.stopIntakeMotor(); 
         extensionSubsystem.stowedExtension();

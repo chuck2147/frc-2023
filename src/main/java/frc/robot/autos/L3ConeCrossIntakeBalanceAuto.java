@@ -26,7 +26,7 @@ public class L3ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                         }).withTimeout(1.5),
                         new WaitCommand(0.6).andThen(new RunCommand(() -> {
                             extensionSubsystem.l3Extension();
-                        }).withTimeout(1.5))),
+                        }).withTimeout(0.7))),
                 new RunCommand(() -> intakeSubsystem.reverseIntakeMotor()).withTimeout(0.5),
                 new InstantCommand(() -> {
                     intakeSubsystem.stopIntakeMotor();
@@ -35,30 +35,50 @@ public class L3ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                 }),
                 new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(2),
 
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 1, true, true)).withTimeout(1.2),
-
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(0.6),
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 4.70, true, true)).withTimeout(0.7),
+               
                 Commands.parallel(
+                    
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(1, 0), 0, true, true)).withTimeout(.17),
+                    new WaitCommand(0.9).andThen(
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(0.7, 0), 0, true, true))),
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.07),
+                    //one more WaitCommand
+
                     new RunCommand(() -> {
                         extensionSubsystem.intakeExtension();
+                        intakeSubsystem.forwardIntakeMotor();
                     }).withTimeout(0.5),
                     new WaitCommand(0.5).andThen(new RunCommand(() -> {
                         elevatorSubsystem.intakeElevator();
-                    }).withTimeout(1.5))),
+                    }).withTimeout(0.7))),
+
+                
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.3),
+
               
-                new RunCommand(() -> intakeSubsystem.forwardIntakeMotor()).withTimeout(0.5), //change
             
                 Commands.parallel(
+
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 4.70, true, true)).withTimeout(0.7),
+                    new WaitCommand(1.0659999).andThen(
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true))),
+                    new WaitCommand(0.6471).andThen(
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true))),
+            
+
+                
                     new RunCommand(() -> {
                         elevatorSubsystem.stowedElevator();
-                        intakeSubsystem.reverseIntakeMotor();
-                    }).withTimeout(1),
+                    }).withTimeout(0.5),
                     new WaitCommand(0.5).andThen(new RunCommand(() -> {
                         extensionSubsystem.stowedExtension();
-                        s_Swerve.drive(new Translation2d(-1.7, 0), 1, true, true);
-                    }).withTimeout(1.5099))),
-    
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(0.6471),
+                        intakeSubsystem.stopIntakeMotor();
+                        s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true);
+                    }).withTimeout(0.50329999))),
                 
+                    
                 new BalanceCommand(s_Swerve)
         );
         // addCommands(
