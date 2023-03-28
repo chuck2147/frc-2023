@@ -35,38 +35,40 @@ public class L3ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                 }),
                 new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(2),
 
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(0.6),
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 4.70, true, true)).withTimeout(0.7),
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(0.5),
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 4.70, true, true)).withTimeout(.7),
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.07),
                
-                Commands.parallel(
+                
                     
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(1, 0), 0, true, true)).withTimeout(.17),
-                    new WaitCommand(0.9).andThen(
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(0.7, 0), 0, true, true))),
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.07),
+                new RunCommand(() -> {
+                    extensionSubsystem.intakeExtension();
+                    intakeSubsystem.forwardIntakeMotor();
+                }).withTimeout(0.37),
+                new WaitCommand(0.37).andThen(new RunCommand(() -> {
+                    elevatorSubsystem.intakeElevator();
+                }).withTimeout(0.7)),
+                    
+
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.3, 0), 0, true, true)).withTimeout(.47),
+                new WaitCommand(0.9).andThen(
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.07)),
                     //one more WaitCommand
 
-                    new RunCommand(() -> {
-                        extensionSubsystem.intakeExtension();
-                        intakeSubsystem.forwardIntakeMotor();
-                    }).withTimeout(0.5),
-                    new WaitCommand(0.5).andThen(new RunCommand(() -> {
-                        elevatorSubsystem.intakeElevator();
-                    }).withTimeout(0.7))),
-
                 
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.3),
+                    
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.3),
 
               
             
                 Commands.parallel(
 
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 4.70, true, true)).withTimeout(0.7),
-                    new WaitCommand(1.0659999).andThen(
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true))),
-                    new WaitCommand(0.6471).andThen(
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true))),
-            
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.3, 0), 0, true, true)).withTimeout(.47),
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(2.157),
+
+                    /*new WaitCommand(2.157).andThen(
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true))).withTimeout(0.6471),
+            */
 
                 
                     new RunCommand(() -> {
