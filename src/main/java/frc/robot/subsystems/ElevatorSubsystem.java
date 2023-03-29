@@ -32,7 +32,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   double kF = 0;
 
   // PID Setpoint....................................................
-  double l3ElevatorPosition = 144044; // 153000 
+  double l3ElevatorPosition = 157200; // used to be 144044 
   double l2ElevatorPosition = 87000; // 87000
   double humanElevatorPosition = 107800; // 110000
   double stowedElevatorPosition = 9000; // starting configuration set when robot turned on

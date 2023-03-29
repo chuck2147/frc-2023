@@ -34,7 +34,7 @@ public class ExtensionSubsystem extends SubsystemBase {
   double kMinOutput = -0.47;
 
   // PID Setpoint....................................................
-  double l3Extension = 19; // 17
+  double l3Extension = 18.6; // 17
   double l2Extension = 10.6; // 12.976
   double humanExtension = 9.5; // 1.6
   double intakeExtension = 9.5; // 9.5
