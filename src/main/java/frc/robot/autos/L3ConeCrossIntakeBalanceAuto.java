@@ -48,10 +48,10 @@ public class L3ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                 new RunCommand(() -> {
                     extensionSubsystem.intakeExtension();
                     intakeSubsystem.forwardIntakeMotor();
-                }).withTimeout(0.32),
+                }).withTimeout(0.32),  
                 new WaitCommand(0.32).andThen(new RunCommand(() -> {
                     elevatorSubsystem.intakeElevator();
-                }).withTimeout(0.07)), //0.053
+                }).withTimeout(0.10)), //0.053
                     
                 //////////////////////intake drive forward//////////////////////
                 new RunCommand(() -> s_Swerve.drive(new Translation2d(1.3, 0), 0, true, true)).withTimeout(.23),

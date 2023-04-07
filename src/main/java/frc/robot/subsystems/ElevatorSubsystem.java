@@ -34,7 +34,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   // PID Setpoint....................................................
   double l3ElevatorPosition = 144044; // used to be 144044 157200
   double l2ElevatorPosition = 87000; // 87000
-  double humanElevatorPosition = 107800; // 110000
+  double humanElevatorPosition = 106300; // 110000, 107800
   double stowedElevatorPosition = 9000; // starting configuration set when robot turned on
   double intakeElevatorPosition = -26500; // negative because will be lower than starting configuration
 
