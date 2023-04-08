@@ -157,10 +157,10 @@ public final class Constants {
   }
 
 //NOT swerve motor constants
-  public final static int ELEVATOR_MOTOR_ID = 10;
+  public final static int ELEVATOR_MOTOR_ID = 13;
   public final static int EXTENSION_MOTOR_ID = 11;
   public final static int INTAKE_MOTOR_ID = 12;
-  public final static int ELEVATOR_FOLLOWER_MOTOR_ID = 13;
+  public final static int ELEVATOR_FOLLOWER_MOTOR_ID = 10;
 
      
  //Pneumatics

@@ -32,11 +32,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   double kF = 0;
 
   // PID Setpoint....................................................
-  double l3ElevatorPosition = 144044; // used to be 144044 157200
-  double l2ElevatorPosition = 87000; // 87000
-  double humanElevatorPosition = 106300; // 110000, 107800
-  double stowedElevatorPosition = 9000; // starting configuration set when robot turned on
-  double intakeElevatorPosition = -26500; // negative because will be lower than starting configuration
+  double l3ElevatorPosition = 103900; // used to be 144044 157200 144044 **104280
+  double l2ElevatorPosition = 55000; // 87000
+  double humanElevatorPosition = 73953; // 110000, 107800 106300
+  double stowedElevatorPosition = 9500; // starting configuration set when robot turned on -- 9000 shorter org intake
+  double intakeElevatorPosition = -21000; // negative because will be lower than starting configuration
 
   // Shuffleboard entries...........................................
   // ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
@@ -53,7 +53,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     elevatorMotor.configFactoryDefault();
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
-    elevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);//Clockwise for Alpha / CounterClockwise for Comp // subject to change
+    elevatorMotor.setInverted(TalonFXInvertType.Clockwise);//Clockwise for Alpha / CounterClockwise for Comp // subject to change
     elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     elevatorMotor.setSensorPhase(true);// check
     elevatorMotor.configPeakOutputForward(1);
@@ -62,7 +62,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     /* set up followers */
     elevatorMotorFollower.configFactoryDefault();
     elevatorMotorFollower.setNeutralMode(NeutralMode.Brake);
-    elevatorMotorFollower.setInverted(TalonFXInvertType.Clockwise);// check
+    elevatorMotorFollower.setInverted(TalonFXInvertType.CounterClockwise);// check
     elevatorMotorFollower.follow(elevatorMotor);
 
     // set PID coefficients

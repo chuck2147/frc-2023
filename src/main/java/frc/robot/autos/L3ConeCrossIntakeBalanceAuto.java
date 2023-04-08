@@ -38,10 +38,10 @@ public class L3ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                 //////////////////////drive forward//////////////////////
                 new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(0.2),
                 new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 4.70, true, true)).withTimeout(.77), //0.7
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(2.3),
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.7, 0), 0, true, true)).withTimeout(2.78),
 
                 //////////////////////Stop//////////////////////
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.053), //0.053
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.021), //0.053
                
                 
                 //////////////////////intake//////////////////////
@@ -54,21 +54,20 @@ public class L3ConeCrossIntakeBalanceAuto extends SequentialCommandGroup {
                 }).withTimeout(0.10)), //0.053
                     
                 //////////////////////intake drive forward//////////////////////
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(1.3, 0), 0, true, true)).withTimeout(.23),
-                new WaitCommand(0.9).andThen(
-                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.07)),
-                    //one more WaitCommand
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(2.8, 0), 0, true, true)).withTimeout(.60), //increase?.127, .57, x:2.3
+                new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.07), //increase?
+                //one more WaitCommand?
 
                 
                 //////////////////////time to intake - stopping drive//////////////////////
                 // new RunCommand(() -> s_Swerve.drive(new Translation2d(0, 0), 0, true, true)).withTimeout(0.3),
 
               
+                //new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(.39),???
             ///////////////////////////////parallel/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 Commands.parallel(
                 //////////////////////drive backward//////////////////////
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.3, 0), 0, true, true)).withTimeout(.47),
-                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-1.7, 0), 0, true, true)).withTimeout(2.157),
+                    new RunCommand(() -> s_Swerve.drive(new Translation2d(-2, 0), 0, true, true)).withTimeout(2.2),
 
                    
 

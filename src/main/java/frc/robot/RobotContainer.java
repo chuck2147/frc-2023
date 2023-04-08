@@ -94,8 +94,8 @@ public class RobotContainer {
     autoChooser.addOption("L2 Cone Cross Auto", new L2ConeCrossAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     autoChooser.addOption("L3 Cone Cross Auto", new L3ConeCrossAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     autoChooser.addOption("L2 Cone Cross Balance Auto", new L2ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
-    autoChooser.setDefaultOption("L3 Cone Cross Balance Auto", new L3ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
-    autoChooser.addOption("L3 Cone Cross Intake Balance Auto", new L3ConeCrossIntakeBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.addOption("L3 Cone Cross Balance Auto", new L3ConeCrossBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
+    autoChooser.setDefaultOption("L3 Cone Cross Intake Balance Auto", new L3ConeCrossIntakeBalanceAuto(s_Swerve, intakeSubsystem, elevatorSubsystem, extensionSubsystem));
     
     SmartDashboard.putData("Auto Selector", autoChooser);
 
